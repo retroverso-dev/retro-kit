@@ -9,4 +9,16 @@ description 'A collection of tools and resources for GTA V modding and developme
 repository 'https://github.com/retroverso-dev/retro-kit'
 license 'LGPL-3.0-or-later + additional terms'
 
+shared_scripts {
+    'resource/shared/*.lua',
+}
+
+client_scripts {
+    'resource/client/*.lua',
+}
+
+server_scripts {
+    'resource/server/*.lua',
+}
+
 ui_page 'web/dist/index.html'
