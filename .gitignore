@@ -39,3 +39,13 @@ luac.out
 *.x86_64
 *.hex
 
+# Web
+/web/node_modules
+/web/build
+
+node_modules
+pnpm-debug.log*
+
+/package/**/*.js
+/package/**/*.js.map
+/package/**/*.d.ts
