@@ -30,7 +30,7 @@ jobs:
       - name: Bump version
         id: bump
         run: |
-          CURRENT_VERSION=$(grep -oP "version '\K[^']+" fxmanifest.lua)
+          CURRENT_VERSION=$(grep -oP "^version '\K[^']+" fxmanifest.lua)
           echo "Current version: $CURRENT_VERSION"
 
           IFS='.' read -r MAJOR MINOR PATCH <<< "$CURRENT_VERSION"
