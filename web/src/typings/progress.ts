@@ -3,6 +3,7 @@ export interface CircleProgressbarProps {
   duration: number;
   position?: "middle" | "top" | "bottom";
   percent?: boolean;
+  canCancel?: boolean;
 }
 
 export interface ProgressbarProps {
@@ -10,4 +11,5 @@ export interface ProgressbarProps {
   duration: number;
   position?: "middle" | "top" | "bottom";
   percent?: boolean;
+  canCancel?: boolean;
 }

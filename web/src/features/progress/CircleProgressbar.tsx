@@ -1,4 +1,5 @@
 import { useNuiEvent } from "@/hooks/useNuiEvent";
+import { fetchNui } from "@/utils/fetchNui";
 import { CircleProgressbarProps } from "@/typings/progress";
 import { useEffect, useMemo, useRef, useState } from "react";
 
@@ -13,6 +14,7 @@ const CircleProgressbar: React.FC = () => {
 
   const intervalRef = useRef<number | null>(null);
   const hideTimeoutRef = useRef<number | null>(null);
+  const cancelledRef = useRef(false);
 
   const clearProgressInterval = () => {
     if (intervalRef.current !== null) {
@@ -28,15 +30,19 @@ const CircleProgressbar: React.FC = () => {
     }
   };
 
+  // Lua tells NUI to cancel — just hide, no callback
   useNuiEvent("progressCancel", () => {
+    cancelledRef.current = true;
     clearProgressInterval();
     clearHideTimeout();
     setVisible(false);
   });
 
+  // Lua tells NUI to start circle progress
   useNuiEvent<CircleProgressbarProps>("circleProgress", (data) => {
     clearProgressInterval();
     clearHideTimeout();
+    cancelledRef.current = false;
 
     const total = data.duration || 0;
     setVisible(true);
@@ -47,6 +53,11 @@ const CircleProgressbar: React.FC = () => {
 
     let elapsed = 0;
     intervalRef.current = window.setInterval(() => {
+      if (cancelledRef.current) {
+        clearProgressInterval();
+        return;
+      }
+
       elapsed += 100;
 
       const nextPercent =
@@ -58,6 +69,7 @@ const CircleProgressbar: React.FC = () => {
         clearProgressInterval();
         hideTimeoutRef.current = window.setTimeout(() => {
           setVisible(false);
+          fetchNui("progressComplete", {});
         }, 150);
       }
     }, 100);
@@ -88,7 +100,7 @@ const CircleProgressbar: React.FC = () => {
       className={`${visible ? "block" : "hidden"} absolute ${positionClass} left-1/2 -translate-x-1/2 ${position !== "bottom" ? "-translate-y-1/2" : ""}`}
     >
       <div className="flex flex-col items-center gap-2">
-        <div className="rounded-full bg-background/70 border border-border p-2 shadow-sm">
+        <div className="rounded-full bg-background border border-border p-2 shadow-sm">
           <div className="relative" style={{ width: size, height: size }}>
             <svg width={size} height={size} className="-rotate-90">
               <circle

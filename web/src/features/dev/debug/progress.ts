@@ -1,15 +1,19 @@
 import { debugData } from "@/utils/debugData";
-import { ProgressbarProps, CircleProgressbarProps } from "@/typings/progress";
+import type {
+  ProgressbarProps,
+  CircleProgressbarProps,
+} from "@/typings/progress";
 
 export const debugProgressbar = () => {
   debugData<ProgressbarProps>([
     {
       action: "progress",
       data: {
-        label: "Using lockpick",
+        label: "Loading...",
         duration: 5000,
-        position: "top",
+        position: "bottom",
         percent: true,
+        canCancel: true,
       },
     },
   ]);
@@ -20,10 +24,11 @@ export const debugCircleProgressbar = () => {
     {
       action: "circleProgress",
       data: {
-        label: "Using lockpick",
+        label: "Processing...",
         duration: 5000,
-        position: "bottom",
+        position: "middle",
         percent: true,
+        canCancel: true,
       },
     },
   ]);

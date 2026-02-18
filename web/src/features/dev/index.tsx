@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/drawer";
 import { debugAlert } from "./debug/alert";
 import { debugNotify } from "./debug/notification";
-import { debugCircleProgressbar, debugProgressbar } from "./debug/progress";
+import { debugProgressbar, debugCircleProgressbar } from "./debug/progress";
 
 const Dev: React.FC = () => {
   return (

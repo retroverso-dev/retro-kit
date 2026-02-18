@@ -1,13 +1,8 @@
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Separator } from "@/components/ui/separator";
 import { useNuiEvent } from "@/hooks/useNuiEvent";
+import { fetchNui } from "@/utils/fetchNui";
 import { ProgressbarProps } from "@/typings/progress";
 import { useEffect, useRef, useState } from "react";
 
@@ -22,6 +17,7 @@ const Progressbar: React.FC = () => {
 
   const intervalRef = useRef<number | null>(null);
   const hideTimeoutRef = useRef<number | null>(null);
+  const cancelledRef = useRef(false);
 
   const clearProgressInterval = () => {
     if (intervalRef.current !== null) {
@@ -37,15 +33,19 @@ const Progressbar: React.FC = () => {
     }
   };
 
+  // Lua tells NUI to cancel — just hide, no callback
   useNuiEvent("progressCancel", () => {
+    cancelledRef.current = true;
     clearProgressInterval();
     clearHideTimeout();
     setVisible(false);
   });
 
+  // Lua tells NUI to start progress
   useNuiEvent<ProgressbarProps>("progress", (data) => {
     clearProgressInterval();
     clearHideTimeout();
+    cancelledRef.current = false;
 
     const total = data.duration || 0;
     setVisible(true);
@@ -56,6 +56,11 @@ const Progressbar: React.FC = () => {
 
     let elapsed = 0;
     intervalRef.current = window.setInterval(() => {
+      if (cancelledRef.current) {
+        clearProgressInterval();
+        return;
+      }
+
       elapsed += 100;
 
       const nextPercent =
@@ -67,6 +72,7 @@ const Progressbar: React.FC = () => {
         clearProgressInterval();
         hideTimeoutRef.current = window.setTimeout(() => {
           setVisible(false);
+          fetchNui("progressComplete", {});
         }, 150);
       }
     }, 100);
@@ -82,7 +88,7 @@ const Progressbar: React.FC = () => {
   return (
     <div className={visible ? "block" : "hidden"}>
       <Card
-        className={`w-100 absolute ${position === "top" ? "top-1/8" : position === "middle" ? "top-1/2" : "bottom-1"} left-1/2 -translate-x-1/2 -translate-y-1/2`}
+        className={`w-100 bg-background absolute ${position === "top" ? "top-1/8" : position === "middle" ? "top-1/2" : "bottom-1"} left-1/2 -translate-x-1/2 -translate-y-1/2`}
       >
         <CardHeader>
           <CardTitle className="text-center">{label}</CardTitle>
