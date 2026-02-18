@@ -1,4 +1,4 @@
-local config = require("shared.config")
+local config = require("resource.shared.config")
 
 -- Função pública para criar notificações
 function TriggerNotification(player, title, description, style, options)
