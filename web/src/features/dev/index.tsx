@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/drawer";
 import { debugAlert } from "./debug/alert";
 import { debugNotify } from "./debug/notification";
+import { debugCircleProgressbar, debugProgressbar } from "./debug/progress";
 
 const Dev: React.FC = () => {
   return (
@@ -47,6 +48,20 @@ const Dev: React.FC = () => {
               onClick={debugAlert}
             >
               Test Alert Dialog
+            </Button>
+            <Button
+              variant="outline"
+              className="mb-2 w-full"
+              onClick={debugProgressbar}
+            >
+              Test Progressbar
+            </Button>
+            <Button
+              variant="outline"
+              className="mb-2 w-full"
+              onClick={debugCircleProgressbar}
+            >
+              Test Circle Progressbar
             </Button>
           </div>
           <DrawerFooter>
