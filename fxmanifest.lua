@@ -18,6 +18,8 @@ client_scripts {
     'resource/client/ui/notify/events.lua',
     'resource/client/ui/alert/events.lua',
     'resource/client/ui/alert/callbacks.lua',
+    'resource/client/ui/progress/events.lua',
+    'resource/client/ui/progress/callbacks.lua',
 }
 
 server_scripts {
@@ -27,6 +29,8 @@ server_scripts {
     'resource/server/ui/notify/api.lua',
     'resource/server/ui/alert/api.lua',
     'resource/server/ui/alert/events.lua',
+    'resource/server/ui/progress/api.lua',
+    'resource/server/ui/progress/events.lua',
 
     'resource/server/debug/commands.lua',
 }

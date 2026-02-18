@@ -49,7 +49,6 @@ function resolveIcon(
   color?: string,
   animation?: "spin" | "pulse" | "bounce" | "shake" | "none",
 ) {
-  // Custom icon name passed
   if (iconName && iconName in icons) {
     return buildIcon(
       iconName as keyof typeof icons,
@@ -59,29 +58,28 @@ function resolveIcon(
     );
   }
 
-  // No custom icon — use the default icon for this style, with color + animation
   const defaultIcon = STYLE_DEFAULT_ICONS[style] ?? STYLE_DEFAULT_ICONS.default;
   return buildIcon(defaultIcon, className, color, animation);
 }
 
-const PROGRESS_INTERVAL = 50; // ms between progress updates
+const PROGRESS_INTERVAL = 50;
 
-function ToastDescription({
+function DurationToast({
+  title,
   description,
   duration,
-  showDuration,
-  color,
+  icon,
+  progressColor,
 }: {
+  title: string;
   description: string;
   duration: number;
-  showDuration: boolean;
-  color: string;
+  icon: React.ReactNode;
+  progressColor: string;
 }) {
   const [progress, setProgress] = useState(100);
 
   useEffect(() => {
-    if (!showDuration) return;
-
     const startTime = Date.now();
 
     const interval = setInterval(() => {
@@ -95,18 +93,25 @@ function ToastDescription({
     }, PROGRESS_INTERVAL);
 
     return () => clearInterval(interval);
-  }, [duration, showDuration]);
+  }, [duration]);
 
   return (
-    <div className="flex flex-col gap-2 w-full">
-      <span>{description}</span>
-      {showDuration && (
-        <Progress
-          value={progress}
-          className="h-1"
-          indicatorStyle={{ backgroundColor: color }}
-        />
-      )}
+    <div
+      className="flex flex-col gap-3 w-89 rounded-lg border border-border p-3 shadow-lg"
+      style={{ background: "rgba(0, 0, 0, 0.7)" }}
+    >
+      <div className="flex items-start gap-3">
+        <div className="mt-0.5 shrink-0">{icon}</div>
+        <div className="flex flex-col gap-0.5">
+          <p className="text-sm font-semibold text-foreground">{title}</p>
+          <p className="text-sm text-muted-foreground">{description}</p>
+        </div>
+      </div>
+      <Progress
+        value={progress}
+        className="h-1"
+        indicatorStyle={{ backgroundColor: progressColor }}
+      />
     </div>
   );
 }
@@ -126,19 +131,29 @@ const Notifications: React.FC = () => {
     );
     const duration = data.duration ?? 5000;
 
-    const description = data.showDuration ? (
-      <ToastDescription
-        description={data.description}
-        duration={duration}
-        showDuration={true}
-        color={progressColor}
-      />
-    ) : (
-      data.description
-    );
+    // Use custom toast when showDuration is true for full-width progress
+    if (data.showDuration) {
+      toast.custom(
+        () => (
+          <DurationToast
+            title={data.title}
+            description={data.description}
+            duration={duration}
+            icon={icon}
+            progressColor={progressColor}
+          />
+        ),
+        {
+          duration,
+          position: data.position,
+          unstyled: true,
+        },
+      );
+      return;
+    }
 
     const options = {
-      description,
+      description: data.description,
       duration,
       position: data.position,
       icon,
