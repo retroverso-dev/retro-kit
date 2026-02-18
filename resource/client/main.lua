@@ -1,4 +1,4 @@
-local config = require("shared.config")
+local config = require("resource.shared.config")
 
 -- NUI Callback para notificações
 RegisterNuiCallbackType("notify")
