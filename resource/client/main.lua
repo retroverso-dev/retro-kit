@@ -1,4 +1,14 @@
-local config = require("resource.shared.config")
+local config = _G.Config
+local nuiFocused = false
+
+local function setAlertFocus(enabled)
+  nuiFocused = enabled
+  SetNuiFocus(enabled, enabled)
+  -- opcional: bloqueia input do jogo enquanto o alert está aberto
+  if SetNuiFocusKeepInput then
+    SetNuiFocusKeepInput(false)
+  end
+end
 
 -- NUI Callback para notificações
 RegisterNuiCallbackType("notify")
@@ -9,19 +19,32 @@ RegisterNuiCallbackType("init")
 -- Receber notificações do servidor
 RegisterNetEvent("retro-kit:notify")
 AddEventHandler("retro-kit:notify", function(data)
-  SendNuiMessage(json.encode({
-    type = "notify",
+  SendNUIMessage({
+    action = "notify",
     data = data,
-  }))
+  })
 end)
 
 -- Receber alerts do servidor
 RegisterNetEvent("retro-kit:sendAlert")
 AddEventHandler("retro-kit:sendAlert", function(data)
-  SendNuiMessage(json.encode({
-    type = "sendAlert",
+  setAlertFocus(true) -- abre alert com foco/mouse na NUI
+  SendNUIMessage({
+    action = "sendAlert",
     data = data,
-  }))
+  })
+end)
+
+-- NUI callbacks (frontend -> client)
+RegisterNUICallback("init", function(_, cb)
+  TriggerServerEvent("retro-kit:init")
+  cb({ ok = true })
+end)
+
+RegisterNUICallback("closeAlert", function(data, cb)
+  setAlertFocus(false) -- ao fechar, devolve controle normal
+  TriggerServerEvent("retro-kit:closeAlert", data)
+  cb({ ok = true })
 end)
 
 -- Callback NUI

@@ -1,4 +1,4 @@
-import { debugData } from "../../../utils/debugData";
+import { debugData } from "@/utils/debugData";
 import type { NotificationProps } from "@/typings/notifications";
 
 export const debugNotify = () => {

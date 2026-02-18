@@ -1,4 +1,4 @@
-local config = require("resource.shared.config")
+local config = _G.Config
 
 -- Função pública para criar notificações
 function TriggerNotification(player, title, description, style, options)
@@ -67,7 +67,7 @@ if config.debug then
     if component == "alert" then
       TriggerAlert(player, "Alert de Teste", "Este é um alert de teste com tipo: " .. testType, {
         cancel = true,
-        icon = "AlertCircle",
+        icon = "Bell",
         iconAnimation = "pulse",
       })
     elseif component == "notification" then
