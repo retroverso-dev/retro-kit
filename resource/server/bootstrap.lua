@@ -59,6 +59,27 @@ function TriggerUI(player, component, data)
   return handler(player, data or {})
 end
 
+function TriggerProgress(player, label, duration, options, onComplete)
+  options = options or {}
+  options.label = label
+  options.duration = duration
+  return RetroKitServer.ui.progress(player, options, onComplete)
+end
+
+function TriggerCircleProgress(player, label, duration, options, onComplete)
+  options = options or {}
+  options.label = label
+  options.duration = duration
+  return RetroKitServer.ui.circleProgress(player, options, onComplete)
+end
+
+function CancelProgress(player)
+  return RetroKitServer.ui.cancelProgress(player)
+end
+
 exports("TriggerNotification", TriggerNotification)
 exports("TriggerAlert", TriggerAlert)
 exports("UI", TriggerUI)
+exports("TriggerProgress", TriggerProgress)
+exports("TriggerCircleProgress", TriggerCircleProgress)
+exports("CancelProgress", CancelProgress)

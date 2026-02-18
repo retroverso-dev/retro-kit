@@ -26,6 +26,56 @@ RegisterCommand("test", function(source, args)
     })
   end
 
+  if component == "progress" then
+    local progressType = (args[2] or "bar"):lower()
+
+    if progressType == "circle" then
+      return RetroKitServer.ui.circleProgress(source, {
+        label = "Processing...",
+        duration = 5000,
+        position = "middle",
+        percent = true,
+        canCancel = true,
+      }, function(cancelled)
+        if cancelled then
+          RetroKitServer.ui.notify(source, {
+            style = "warning",
+            title = "Cancelled",
+            description = "Circle progress was cancelled.",
+          })
+        else
+          RetroKitServer.ui.notify(source, {
+            style = "success",
+            title = "Complete",
+            description = "Circle progress finished!",
+          })
+        end
+      end)
+    end
+
+    return RetroKitServer.ui.progress(source, {
+      label = "Loading...",
+      duration = 5000,
+      position = "bottom",
+      percent = true,
+      canCancel = true,
+    }, function(cancelled)
+      if cancelled then
+        RetroKitServer.ui.notify(source, {
+          style = "warning",
+          title = "Cancelled",
+          description = "Progress was cancelled.",
+        })
+      else
+        RetroKitServer.ui.notify(source, {
+          style = "success",
+          title = "Complete",
+          description = "Progress finished!",
+        })
+      end
+    end)
+  end
+
   RetroKitServer.ui.notify(source, {
     style = "error",
     title = "Erro",
@@ -33,4 +83,4 @@ RegisterCommand("test", function(source, args)
   })
 end, false)
 
-print("^2[Retro Kit]^7 Debug mode enabled! Use /test [alert|notification] [type]")
+print("^2[Retro Kit]^7 Debug mode enabled! Use /test [alert|notification|progress] [type]")

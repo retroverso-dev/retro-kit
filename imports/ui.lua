@@ -16,6 +16,18 @@ function retro.alert(player, data)
   return retro.ui(player, 'alert', data)
 end
 
+function retro.progress(player, data, onComplete)
+  return exports['retro-kit']:TriggerProgress(player, data.label, data.duration, data, onComplete)
+end
+
+function retro.circleProgress(player, data, onComplete)
+  return exports['retro-kit']:TriggerCircleProgress(player, data.label, data.duration, data, onComplete)
+end
+
+function retro.cancelProgress(player)
+  return exports['retro-kit']:CancelProgress(player)
+end
+
 -- dynamic fallback to support any component without needing to define explicit functions for each one:
 -- retro.bank(...), retro.inventory(...), retro.whatever(...)
 setmetatable(retro, {
