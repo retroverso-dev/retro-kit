@@ -1,107 +1,37 @@
-local config = _G.Config
-local nuiFocused = false
+local config = _G.Config or {}
 
-local function setAlertFocus(enabled)
-  nuiFocused = enabled
+RetroKitClient = RetroKitClient or {
+  config = config,
+  nuiFocused = false,
+}
+
+function RetroKitClient.setFocus(enabled)
+  RetroKitClient.nuiFocused = enabled
   SetNuiFocus(enabled, enabled)
-  -- opcional: bloqueia input do jogo enquanto o alert está aberto
+
   if SetNuiFocusKeepInput then
     SetNuiFocusKeepInput(false)
   end
 end
 
--- NUI Callback para notificações
-RegisterNuiCallbackType("notify")
-RegisterNuiCallbackType("sendAlert")
-RegisterNuiCallbackType("closeAlert")
-RegisterNuiCallbackType("init")
-
--- Receber notificações do servidor
-RegisterNetEvent("retro-kit:notify")
-AddEventHandler("retro-kit:notify", function(data)
+function RetroKitClient.send(action, data)
   SendNUIMessage({
-    action = "notify",
+    action = action,
     data = data,
   })
-end)
+end
 
--- Receber alerts do servidor
-RegisterNetEvent("retro-kit:sendAlert")
-AddEventHandler("retro-kit:sendAlert", function(data)
-  setAlertFocus(true) -- abre alert com foco/mouse na NUI
-  SendNUIMessage({
-    action = "sendAlert",
-    data = data,
-  })
-end)
-
--- NUI callbacks (frontend -> client)
 RegisterNUICallback("init", function(_, cb)
   TriggerServerEvent("retro-kit:init")
   cb({ ok = true })
 end)
 
-RegisterNUICallback("closeAlert", function(data, cb)
-  setAlertFocus(false) -- ao fechar, devolve controle normal
-  TriggerServerEvent("retro-kit:closeAlert", data)
-  cb({ ok = true })
-end)
-
--- Callback NUI
-NuiCallbacks = {}
-
-NuiCallbacks.closeAlert = function(data, cb)
-  TriggerServerEvent("retro-kit:closeAlert", data)
-  cb("ok")
-end
-
-NuiCallbacks.init = function(data, cb)
-  TriggerServerEvent("retro-kit:init")
-  cb("ok")
-end
-
--- Handler geral de callbacks NUI
-RegisterNuiCallbackType("callback")
-RegisterNuiCallback("callback", function(data, cb)
-  if NuiCallbacks[data.method] then
-    NuiCallbacks[data.method](data.args, cb)
-  else
-    print("^1[Retro Kit]^7 Unknown NUI callback: " .. (data.method or "none"))
-    cb("error")
+AddEventHandler("onResourceStop", function(resourceName)
+  if resourceName ~= GetCurrentResourceName() then return end
+  if RetroKitClient.nuiFocused then
+    RetroKitClient.setFocus(false)
   end
 end)
-
--- Funções públicas do cliente
-function ClientNotify(title, description, style, options)
-  TriggerEvent("retro-kit:notify", {
-    style = style or "info",
-    title = title,
-    description = description,
-    duration = options and options.duration or config.notification.defaultDuration,
-    showDuration = options and options.showDuration or false,
-    icon = options and options.icon,
-    iconAnimation = options and options.iconAnimation or "none",
-    iconColor = options and options.iconColor,
-    position = options and options.position or config.notification.defaultPosition,
-  })
-end
-
-function ClientAlert(title, description, options)
-  TriggerEvent("retro-kit:sendAlert", {
-    title = title,
-    description = description,
-    size = options and options.size or config.alert.defaultSize,
-    cancel = options and options.cancel or false,
-    labels = options and options.labels or { cancel = "Cancel", confirm = "OK" },
-    icon = options and options.icon,
-    iconAnimation = options and options.iconAnimation or "none",
-    iconColor = options and options.iconColor,
-  })
-end
-
--- Exportar funções públicas
-exports("ClientNotify", ClientNotify)
-exports("ClientAlert", ClientAlert)
 
 if config.debug then
   print("^2[Retro Kit]^7 Client debug mode enabled")
