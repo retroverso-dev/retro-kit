@@ -84,6 +84,7 @@ jobs:
           cp fxmanifest.lua /tmp/retro-kit/
           cp LICENSE /tmp/retro-kit/
           cp README.md /tmp/retro-kit/
+          CP init.lua /tmp/retro-kit/
 
           # Copy Lua resource folders
           if [ -d "resource" ]; then
