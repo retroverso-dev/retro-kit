@@ -1,12 +1,10 @@
+-- Este arquivo carrega as configurações compartilhadas
+if GetResourceState('retro-kit') ~= 'started' then
+  return
+end
+
 -- Validate resource name
 local resourceName = GetCurrentResourceName()
-
-if GetResourceState('retro-kit') ~= 'started' then
-    local msg = ('^1[retro-kit] Resource "retro-kit" is not started. Make sure it is running before starting "%s".^0'):format(resourceName)
-    print(msg)
-    error(msg)
-    return
-end
 
 -- Prevent loading init.lua from the retro-kit resource itself
 if resourceName == 'retro-kit' then

@@ -10,15 +10,15 @@ repository 'https://github.com/retroverso-dev/retro-kit'
 license 'LGPL-3.0-or-later + additional terms'
 
 shared_scripts {
-    'resource/shared/*.lua',
+    'resource/shared/config.lua',
 }
 
 client_scripts {
-    'resource/client/*.lua',
+    'resource/client/main.lua',
 }
 
 server_scripts {
-    'resource/server/*.lua',
+    'resource/server/main.lua',
 }
 
 files {
