@@ -93,6 +93,11 @@ jobs:
             cp -r locales /tmp/retro-kit/
           fi
 
+          # Copy imports
+          if [ -d "imports" ]; then
+            cp -r imports /tmp/retro-kit/
+          fi
+
           # Copy only the built web assets (not source)
           mkdir -p /tmp/retro-kit/web/dist
           cp -r web/dist/* /tmp/retro-kit/web/dist/
