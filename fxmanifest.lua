@@ -21,4 +21,9 @@ server_scripts {
     'resource/server/*.lua',
 }
 
+files {
+    'init.lua',
+    'web/dist/**/*',
+}
+
 ui_page 'web/dist/index.html'
