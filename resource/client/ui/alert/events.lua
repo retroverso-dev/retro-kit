@@ -1,0 +1,5 @@
+RegisterNetEvent("retro-kit:sendAlert")
+AddEventHandler("retro-kit:sendAlert", function(data)
+  RetroKitClient.setFocus(true)
+  RetroKitClient.send("sendAlert", data)
+end)

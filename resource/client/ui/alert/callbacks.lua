@@ -1,0 +1,5 @@
+RegisterNUICallback("closeAlert", function(data, cb)
+  RetroKitClient.setFocus(false)
+  TriggerServerEvent("retro-kit:closeAlert", data)
+  cb({ ok = true })
+end)

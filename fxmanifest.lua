@@ -15,14 +15,25 @@ shared_scripts {
 
 client_scripts {
     'resource/client/main.lua',
+    'resource/client/ui/notify/events.lua',
+    'resource/client/ui/alert/events.lua',
+    'resource/client/ui/alert/callbacks.lua',
 }
 
 server_scripts {
-    'resource/server/main.lua',
+    'resource/server/bootstrap.lua',
+    'resource/server/nui/events.lua',
+
+    'resource/server/ui/notify/api.lua',
+    'resource/server/ui/alert/api.lua',
+    'resource/server/ui/alert/events.lua',
+
+    'resource/server/debug/commands.lua',
 }
 
 files {
     'init.lua',
+    'imports/*.lua',
     'web/dist/**/*',
 }
 
