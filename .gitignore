@@ -49,3 +49,5 @@ pnpm-debug.log*
 /package/**/*.js
 /package/**/*.js.map
 /package/**/*.d.ts
+
+/test
