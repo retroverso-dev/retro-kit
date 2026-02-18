@@ -3,6 +3,8 @@ import { fetchNui } from "./utils/fetchNui";
 import { setClipboard } from "./utils/setClipboard";
 import { isEnvBrowser } from "./utils/misc";
 import Dev from "./features/dev";
+import Notifications from "./features/notifications/NotificationWrapper";
+import AlertDialogWrapper from "./features/dialog/AlertDialog";
 
 function App() {
   useNuiEvent("setClipboard", (data: string) => {
@@ -14,6 +16,8 @@ function App() {
   return (
     <div className="m-auto container">
       <h1 className="text-4xl font-bold text-center">Retro Kit</h1>
+      <Notifications />
+      <AlertDialogWrapper />
       {isEnvBrowser() && <Dev />}
     </div>
   );

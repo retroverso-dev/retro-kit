@@ -1,11 +1,62 @@
-import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { DynamicIcon } from "@/components/ui/dynamic-icon";
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "@/components/ui/drawer";
+import { debugAlert } from "./debug/alert";
+import { debugNotify } from "./debug/notification";
 
 const Dev: React.FC = () => {
-  const [opened, setOpened] = useState(false);
   return (
-    <>
-      <h1>Dev mode</h1>
-    </>
+    <div className="flex flex-col items-center justify-center">
+      <Drawer direction="left">
+        <DrawerTrigger asChild>
+          <Button
+            className="rounded-full absolute bottom-10 right-10 h-auto w-auto aspect-square p-2"
+            variant="destructive"
+          >
+            <DynamicIcon name="Settings" className="size-5" />
+          </Button>
+        </DrawerTrigger>
+
+        <DrawerContent>
+          <DrawerHeader>
+            <DrawerTitle>Dev Tools</DrawerTitle>
+            <DrawerDescription>
+              Tools and utilities for development and debugging.
+            </DrawerDescription>
+          </DrawerHeader>
+          <div className="p-4">
+            <Button
+              variant="outline"
+              className="mb-2 w-full"
+              onClick={debugNotify}
+            >
+              Test Notify
+            </Button>
+            <Button
+              variant="outline"
+              className="mb-2 w-full"
+              onClick={debugAlert}
+            >
+              Test Alert Dialog
+            </Button>
+          </div>
+          <DrawerFooter>
+            <DrawerClose asChild>
+              <Button variant="outline">Close</Button>
+            </DrawerClose>
+          </DrawerFooter>
+        </DrawerContent>
+      </Drawer>
+    </div>
   );
 };
 
