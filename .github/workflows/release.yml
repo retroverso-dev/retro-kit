@@ -30,19 +30,16 @@ jobs:
       - name: Bump version
         id: bump
         run: |
-          CURRENT_VERSION=$(grep -oP "^version '\K[^']+" fxmanifest.lua)
-          echo "Current version: $CURRENT_VERSION"
+          # Pega a última tag, se não existir, usa 0.0.0
+          LAST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "v0.0.0")
+          LAST_VERSION=${LAST_TAG#v}  # Remove o "v" do começo
 
-          IFS='.' read -r MAJOR MINOR PATCH <<< "$CURRENT_VERSION"
+          echo "Last tag: $LAST_TAG (version: $LAST_VERSION)"
 
-          # Check if there are any tags already
-          LAST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "")
+          IFS='.' read -r MAJOR MINOR PATCH <<< "$LAST_VERSION"
 
-          if [ -z "$LAST_TAG" ]; then
-            COMMITS=$(git log --pretty=format:"%s %b" 2>/dev/null || echo "")
-          else
-            COMMITS=$(git log "$LAST_TAG"..HEAD --pretty=format:"%s %b" 2>/dev/null || echo "")
-          fi
+          # Pega os commits desde a última tag
+          COMMITS=$(git log "$LAST_TAG"..HEAD --pretty=format:"%s %b" 2>/dev/null || echo "")
 
           # Determine bump type from conventional commits
           if echo "$COMMITS" | grep -qiE "BREAKING CHANGE|^break"; then
