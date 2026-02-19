@@ -10,6 +10,7 @@ A collection of UI tools and resources for FiveM development.
 - [Progress Bar](./progress-bar.md)
 - [Circle Progress](./circle-progress.md)
 - [Context Menu](./context-menu.md)
+- [Text UI](./text-ui.md)
 - [Configuration](./configuration.md)
 
 ## Quick Start

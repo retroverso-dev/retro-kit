@@ -307,6 +307,58 @@ RegisterCommand("test", function(source, args)
     return
   end
 
+  if component == "textui" then
+    local textType = (args[2] or "single"):lower()
+
+    if textType == "hide" then
+      RetroKitServer.ui.textUiHide(source)
+      return RetroKitServer.ui.notify(source, {
+        style = "info",
+        title = "TextUI",
+        description = "TextUI hidden.",
+        duration = 2000,
+      })
+    end
+
+    if textType == "multi" then
+      return RetroKitServer.ui.textUi(source, {
+        position = "right-center",
+        content = {
+          { uiKey = "E", text = "Open Door" },
+          { uiKey = "G", text = "Lock Door" },
+          { text = "Hold to interact" },
+        },
+      })
+    end
+
+    if textType == "left" then
+      return RetroKitServer.ui.textUi(source, {
+        position = "left-center",
+        content = { uiKey = "F", text = "Pick up item" },
+      })
+    end
+
+    if textType == "top" then
+      return RetroKitServer.ui.textUi(source, {
+        position = "top-center",
+        content = { text = "You are entering a restricted zone" },
+      })
+    end
+
+    if textType == "bottom" then
+      return RetroKitServer.ui.textUi(source, {
+        position = "bottom-center",
+        content = { uiKey = "H", text = "Honk horn" },
+      })
+    end
+
+    -- default: single
+    return RetroKitServer.ui.textUi(source, {
+      position = "right-center",
+      content = { uiKey = "E", text = "Interact" },
+    })
+  end
+
   RetroKitServer.ui.notify(source, {
     style = "error",
     title = "Erro",
@@ -314,4 +366,4 @@ RegisterCommand("test", function(source, args)
   })
 end, false)
 
-print("^2[Retro Kit]^7 Debug mode enabled! Use /test [alert|notification|progress|context] [type]")
+print("^2[Retro Kit]^7 Debug mode enabled! Use /test [alert|notification|progress|context|textui] [type]")

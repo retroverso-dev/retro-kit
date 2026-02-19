@@ -89,6 +89,14 @@ function HideContext(player)
   return RetroKitServer.ui.hideContext(player)
 end
 
+function TriggerTextUi(player, data)
+  return RetroKitServer.ui.textUi(player, data)
+end
+
+function HideTextUi(player)
+  return RetroKitServer.ui.textUiHide(player)
+end
+
 exports("TriggerNotification", TriggerNotification)
 exports("TriggerAlert", TriggerAlert)
 exports("UI", TriggerUI)
@@ -98,3 +106,5 @@ exports("CancelProgress", CancelProgress)
 exports("RegisterContext", RegisterContext)
 exports("ShowContext", ShowContext)
 exports("HideContext", HideContext)
+exports("TriggerTextUi", TriggerTextUi)
+exports("HideTextUi", HideTextUi)
