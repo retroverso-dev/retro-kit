@@ -40,6 +40,14 @@ function retro.hideContext(player)
   return exports['retro-kit']:HideContext(player)
 end
 
+function retro.textUi(player, data)
+  return exports['retro-kit']:TriggerTextUi(player, data)
+end
+
+function retro.textUiHide(player)
+  return exports['retro-kit']:HideTextUi(player)
+end
+
 -- dynamic fallback to support any component without needing to define explicit functions for each one:
 -- retro.bank(...), retro.inventory(...), retro.whatever(...)
 setmetatable(retro, {
