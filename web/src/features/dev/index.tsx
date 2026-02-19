@@ -14,6 +14,7 @@ import { debugAlert } from "./debug/alert";
 import { debugNotify } from "./debug/notification";
 import { debugProgressbar, debugCircleProgressbar } from "./debug/progress";
 import { debugContext } from "./debug/context";
+import { debugTextUi } from "./debug/textui";
 
 const Dev: React.FC = () => {
   return (
@@ -70,6 +71,13 @@ const Dev: React.FC = () => {
               onClick={debugContext}
             >
               Test Context Menu
+            </Button>
+            <Button
+              variant="outline"
+              className="mb-2 w-full"
+              onClick={debugTextUi}
+            >
+              Test Text UI
             </Button>
           </div>
           <DrawerFooter>
