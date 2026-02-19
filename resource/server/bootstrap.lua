@@ -77,9 +77,24 @@ function CancelProgress(player)
   return RetroKitServer.ui.cancelProgress(player)
 end
 
+function RegisterContext(player, id, data, clickCallbacks)
+  return RetroKitServer.ui.registerContext(player, id, data, clickCallbacks)
+end
+
+function ShowContext(player, id)
+  return RetroKitServer.ui.showContext(player, id)
+end
+
+function HideContext(player)
+  return RetroKitServer.ui.hideContext(player)
+end
+
 exports("TriggerNotification", TriggerNotification)
 exports("TriggerAlert", TriggerAlert)
 exports("UI", TriggerUI)
 exports("TriggerProgress", TriggerProgress)
 exports("TriggerCircleProgress", TriggerCircleProgress)
 exports("CancelProgress", CancelProgress)
+exports("RegisterContext", RegisterContext)
+exports("ShowContext", ShowContext)
+exports("HideContext", HideContext)

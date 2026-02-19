@@ -28,6 +28,18 @@ function retro.cancelProgress(player)
   return exports['retro-kit']:CancelProgress(player)
 end
 
+function retro.registerContext(player, id, data, clickCallbacks)
+  return exports['retro-kit']:RegisterContext(player, id, data, clickCallbacks)
+end
+
+function retro.showContext(player, id)
+  return exports['retro-kit']:ShowContext(player, id)
+end
+
+function retro.hideContext(player)
+  return exports['retro-kit']:HideContext(player)
+end
+
 -- dynamic fallback to support any component without needing to define explicit functions for each one:
 -- retro.bank(...), retro.inventory(...), retro.whatever(...)
 setmetatable(retro, {

@@ -1,0 +1,16 @@
+RegisterNetEvent("retro-kit:showContext")
+AddEventHandler("retro-kit:showContext", function(data)
+  RetroKitClient.setFocus(true, true)
+  RetroKitClient.send("showContext", data)
+end)
+
+RegisterNetEvent("retro-kit:hideContext")
+AddEventHandler("retro-kit:hideContext", function()
+  RetroKitClient.setFocus(false)
+  RetroKitClient.send("hideContext", {})
+end)
+
+RegisterNetEvent("retro-kit:contextServerEvent")
+AddEventHandler("retro-kit:contextServerEvent", function(eventName, args)
+  TriggerServerEvent(eventName, args)
+end)
