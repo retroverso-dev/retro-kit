@@ -13,6 +13,7 @@ import {
 import { debugAlert } from "./debug/alert";
 import { debugNotify } from "./debug/notification";
 import { debugProgressbar, debugCircleProgressbar } from "./debug/progress";
+import { debugContext } from "./debug/context";
 
 const Dev: React.FC = () => {
   return (
@@ -62,6 +63,13 @@ const Dev: React.FC = () => {
               onClick={debugCircleProgressbar}
             >
               Test Circle Progressbar
+            </Button>
+            <Button
+              variant="outline"
+              className="mb-2 w-full"
+              onClick={debugContext}
+            >
+              Test Context Menu
             </Button>
           </div>
           <DrawerFooter>

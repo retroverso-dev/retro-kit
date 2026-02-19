@@ -55,6 +55,9 @@ exports['retro-kit']:TriggerAlert(player, title, description, options)
 exports['retro-kit']:TriggerProgress(player, label, duration, options, onComplete)
 exports['retro-kit']:TriggerCircleProgress(player, label, duration, options, onComplete)
 exports['retro-kit']:CancelProgress(player)
+exports['retro-kit']:RegisterContext(player, id, data)
+exports['retro-kit']:ShowContext(player, id)
+exports['retro-kit']:HideContext(player)
 ```
 
 ## Using the `retro` Global
@@ -67,4 +70,7 @@ retro.alert(player, data)
 retro.progress(player, data, onComplete)
 retro.circleProgress(player, data, onComplete)
 retro.cancelProgress(player)
+retro.registerContext(player, id, data)
+retro.showContext(player, id)
+retro.hideContext(player)
 ```

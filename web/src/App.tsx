@@ -7,6 +7,7 @@ import Notifications from "./features/notifications/NotificationWrapper";
 import AlertDialogWrapper from "./features/dialog/AlertDialog";
 import Progressbar from "./features/progress/Progressbar";
 import CircleProgressbar from "./features/progress/CircleProgressbar";
+import ContextMenu from "./features/menu/context/ContextMenu";
 
 function App() {
   useNuiEvent("setClipboard", (data: string) => {
@@ -22,6 +23,7 @@ function App() {
       <CircleProgressbar />
       <Notifications />
       <AlertDialogWrapper />
+      <ContextMenu />
       {isEnvBrowser() && <Dev />}
     </div>
   );
