@@ -26,9 +26,15 @@ RegisterNUICallback("init", function(_, cb)
   cb({ ok = true })
 end)
 
-RegisterNetEvent("retro-kit:setLocale")
-AddEventHandler("retro-kit:setLocale", function(locale)
-  RetroKitClient.send("setLocale", locale)
+RegisterNetEvent("retro-kit:initData")
+AddEventHandler("retro-kit:initData", function(data)
+  if data.locale then
+    RetroKitClient.send("setLocale", data.locale)
+  end
+
+  if data.colors then
+    RetroKitClient.send("setConfig", data.colors)
+  end
 end)
 
 AddEventHandler("onResourceStop", function(resourceName)

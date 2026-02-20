@@ -13,51 +13,8 @@
 -- You should have received a copy of the GNU General Public License
 -- along with Retro Kit.  If not, see <http://www.gnu.org/licenses/>.
 
-local config = {
-  debug = true,
-  locale = "en",
-}
-
-local function LoadLocaleFile(localeName)
-  local file = GetCurrentResourceName() .. "/locales/" .. localeName .. ".json"
-  return LoadResourceFile(GetCurrentResourceName(), file)
-end
-
-local function LoadLocale()
-  local localeName = config.locale or "en"
-  local localeData = LoadLocaleFile(localeName)
-
-  if not localeData then
-    print(("^3[retro-kit]^7 Locale '%s' not found, falling back to 'en'"):format(localeName))
-    localeData = LoadLocaleFile("en")
-  end
-
-  if not localeData then
-    print("^1[retro-kit]^7 Failed to load any locale file!")
-    return
-  end
-
-  local locale = json.decode(localeData)
-
-  if not locale then
-    print(("^1[retro-kit]^7 Failed to parse locale '%s'"):format(localeName))
-    return
-  end
-
-  return locale
-end
-
-local function Initialize()
-  if config.debug then
-    print(("Retro Kit initialized for player: %s"):format(source))
-  end
-end
-
-RegisterNetEvent("retro-kit:init")
-AddEventHandler("retro-kit:init", function()
-  local src = source
-  local config = RetroKitServer.config or {}
-  local localeName = config.locale or "en"
+local function LoadLocale(localeName)
+  localeName = localeName or "en"
 
   local localeData = LoadResourceFile(GetCurrentResourceName(), "locales/" .. localeName .. ".json")
 
@@ -68,21 +25,44 @@ AddEventHandler("retro-kit:init", function()
 
   if not localeData then
     print("^1[retro-kit]^7 Failed to load any locale file!")
-    return
+    return nil
   end
 
   local locale = json.decode(localeData)
 
   if not locale then
     print(("^1[retro-kit]^7 Failed to parse locale '%s'"):format(localeName))
-    return
+    return nil
   end
 
-  TriggerClientEvent("retro-kit:setLocale", src, locale)
+  return locale
+end
+
+RegisterNetEvent("retro-kit:init")
+AddEventHandler("retro-kit:init", function()
+  local src = source
+  local config = RetroKitServer.config or {}
+
+  -- Load locale
+  local locale = LoadLocale(config.locale)
+
+  -- Build NUI config payload
+  local nuiConfig = {
+    locale = locale,
+    colors = config.colors or {},
+  }
+
+  TriggerClientEvent("retro-kit:initData", src, nuiConfig)
 
   if config.debug then
-    print(("^2[retro-kit]^7 Locale '%s' (%s) sent to player %d"):format(localeName, locale.language or "?", src))
+    local localeName = config.locale or "en"
+    local langLabel = locale and locale.language or "?"
+    print(("^2[retro-kit]^7 Init data sent to player %d (locale: %s [%s], colors: primary=%s, secondary=%s)"):format(
+      src,
+      localeName,
+      langLabel,
+      config.colors and config.colors.primary or "default",
+      config.colors and config.colors.secondary or "default"
+    ))
   end
 end)
-
-Initialize()
