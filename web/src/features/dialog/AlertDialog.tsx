@@ -27,8 +27,8 @@ const AlertDialogWrapper = () => {
     iconColor: undefined,
     cancel: false,
     labels: {
-      cancel: "Cancel",
-      confirm: "OK",
+      cancel: "",
+      confirm: "",
     },
   });
 

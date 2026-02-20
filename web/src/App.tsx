@@ -1,3 +1,4 @@
+import { useEffect, useRef } from "react";
 import { useNuiEvent } from "./hooks/useNuiEvent";
 import { fetchNui } from "./utils/fetchNui";
 import { setClipboard } from "./utils/setClipboard";
@@ -12,11 +13,22 @@ import TextUI from "./features/textui/TextUI";
 import InputDialog from "./features/dialog/InputDialog";
 
 function App() {
+  const initialized = useRef(false);
+
   useNuiEvent("setClipboard", (data: string) => {
     setClipboard(data);
   });
 
-  fetchNui("init");
+  useEffect(() => {
+    if (initialized.current) return;
+    initialized.current = true;
+
+    const timer = setTimeout(() => {
+      fetchNui("init");
+    }, 50);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
     <div className="m-auto container">

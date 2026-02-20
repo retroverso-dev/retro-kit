@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -34,7 +34,6 @@ export type FormValues = {
   }[];
 };
 
-// Add this helper at the top of the file, before the component
 function parseDateLocal(value: unknown): Date | undefined {
   if (!value) return undefined;
   if (value === true) return new Date();
@@ -66,6 +65,35 @@ const InputDialog: React.FC = () => {
     control: form.control,
     name: "test",
   });
+
+  const canCancel = fields.options?.allowCancel !== false;
+
+  const handleClose = async (dontPost?: boolean) => {
+    setVisible(false);
+    await new Promise((resolve) => setTimeout(resolve, 200));
+    form.reset();
+    fieldForm.remove();
+    if (dontPost) return;
+    fetchNui("inputData", null);
+  };
+
+  // Handle ESC key manually
+  useEffect(() => {
+    if (!visible) return;
+
+    const keyHandler = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        e.preventDefault();
+        e.stopPropagation();
+        if (canCancel) {
+          handleClose();
+        }
+      }
+    };
+
+    window.addEventListener("keydown", keyHandler, true);
+    return () => window.removeEventListener("keydown", keyHandler, true);
+  }, [visible, canCancel]);
 
   useNuiEvent<InputProps>("openDialog", (data) => {
     setFields(data);
@@ -107,15 +135,6 @@ const InputDialog: React.FC = () => {
 
   useNuiEvent("closeInputDialog", async () => await handleClose(true));
 
-  const handleClose = async (dontPost?: boolean) => {
-    setVisible(false);
-    await new Promise((resolve) => setTimeout(resolve, 200));
-    form.reset();
-    fieldForm.remove();
-    if (dontPost) return;
-    fetchNui("inputData", null);
-  };
-
   const onSubmit = form.handleSubmit(async (data) => {
     setVisible(false);
 
@@ -144,14 +163,26 @@ const InputDialog: React.FC = () => {
 
   return (
     <div className="flex items-center">
-      <AlertDialog open={visible} onOpenChange={setVisible}>
+      <AlertDialog
+        open={visible}
+        onOpenChange={(open) => {
+          if (!open && canCancel) {
+            handleClose();
+          }
+        }}
+      >
         <form onSubmit={onSubmit}>
-          <AlertDialogContent className="text-center">
+          <AlertDialogContent
+            onEscapeKeyDown={(e) => e.preventDefault()}
+            className="text-center"
+          >
             <AlertDialogHeader className="items-center text-center">
-              <AlertDialogTitle>Input Dialog</AlertDialogTitle>
-              <AlertDialogDescription>
-                This is an example of an input dialog. You can customize this
-              </AlertDialogDescription>
+              <AlertDialogTitle>{fields.heading || "Dialog"}</AlertDialogTitle>
+              {fields.description && (
+                <AlertDialogDescription>
+                  {fields.description}
+                </AlertDialogDescription>
+              )}
             </AlertDialogHeader>
             <Separator className="my-4" />
             <FieldGroup className="max-h-125 flex flex-col gap-8 overflow-y-auto custom-scrollbar pb-4 px-4">
@@ -238,7 +269,7 @@ const InputDialog: React.FC = () => {
               <AlertDialogCancel
                 variant="outline"
                 onClick={() => handleClose()}
-                disabled={fields.options?.allowCancel === false}
+                disabled={!canCancel}
               >
                 {locale.ui.cancel}
               </AlertDialogCancel>
