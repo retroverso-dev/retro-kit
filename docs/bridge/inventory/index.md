@@ -215,3 +215,17 @@ Enable debug mode and use the test commands:
 ```lua
 Config.debug = true
 ```
+
+**Debug commands:**
+
+```
+/retro inventory                    -- Show wich inventory bridge is active
+/retro inventory:has water 5        -- Check if player has # items
+/retro inventory:count water        -- Get count of item
+/retro inventory:get water          -- Get complete item info (name, label, count, slot, weight, metadata)
+/retro inventory:items              -- List all items in inventory
+/retro inventory:add water 5        -- Add items to inventory
+/retro inventory:remove water 5     -- Remove items from inventory
+/retro inventory:carry water 5      -- Check if player can carry items
+/retro inventory:weight             -- Show current and max weight
+```
