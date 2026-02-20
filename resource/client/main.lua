@@ -26,6 +26,17 @@ RegisterNUICallback("init", function(_, cb)
   cb({ ok = true })
 end)
 
+RegisterNetEvent("retro-kit:initData")
+AddEventHandler("retro-kit:initData", function(data)
+  if data.locale then
+    RetroKitClient.send("setLocale", data.locale)
+  end
+
+  if data.colors then
+    RetroKitClient.send("setConfig", data.colors)
+  end
+end)
+
 AddEventHandler("onResourceStop", function(resourceName)
   if resourceName ~= GetCurrentResourceName() then return end
   if RetroKitClient.nuiFocused then

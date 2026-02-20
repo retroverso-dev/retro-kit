@@ -1,0 +1,9 @@
+{
+  "language": "العربية",
+  "ui": {
+    "cancel": "إلغاء",
+    "confirm": "تأكيد",
+    "close": "إغلاق",
+    "inputPlaceholder": "اكتب هنا..."
+  }
+}

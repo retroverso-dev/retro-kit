@@ -1,0 +1,9 @@
+{
+  "language": "Shqip",
+  "ui": {
+    "cancel": "Anulo",
+    "confirm": "Konfirmo",
+    "close": "Mbyll",
+    "inputPlaceholder": "Shkruani këtu..."
+  }
+}

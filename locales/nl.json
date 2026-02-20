@@ -1,0 +1,9 @@
+{
+  "language": "Nederlands",
+  "ui": {
+    "cancel": "Annuleren",
+    "confirm": "Bevestigen",
+    "close": "Sluiten",
+    "inputPlaceholder": "Typ hier..."
+  }
+}

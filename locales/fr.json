@@ -1,0 +1,9 @@
+{
+  "language": "Français",
+  "ui": {
+    "cancel": "Annuler",
+    "confirm": "Confirmer",
+    "close": "Fermer",
+    "inputPlaceholder": "Tapez ici..."
+  }
+}

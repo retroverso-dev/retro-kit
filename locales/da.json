@@ -1,0 +1,9 @@
+{
+  "language": "Dansk",
+  "ui": {
+    "cancel": "Annuller",
+    "confirm": "Bekræft",
+    "close": "Luk",
+    "inputPlaceholder": "Skriv her..."
+  }
+}

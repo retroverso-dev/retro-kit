@@ -9,6 +9,7 @@ import Progressbar from "./features/progress/Progressbar";
 import CircleProgressbar from "./features/progress/CircleProgressbar";
 import ContextMenu from "./features/menu/context/ContextMenu";
 import TextUI from "./features/textui/TextUI";
+import InputDialog from "./features/dialog/InputDialog";
 
 function App() {
   useNuiEvent("setClipboard", (data: string) => {
@@ -26,6 +27,7 @@ function App() {
       <AlertDialogWrapper />
       <ContextMenu />
       <TextUI />
+      <InputDialog />
       {isEnvBrowser() && <Dev />}
     </div>
   );

@@ -14,8 +14,10 @@ import {
 } from "@/components/ui/alert-dialog";
 import { DynamicIcon } from "@/components/ui/dynamic-icon";
 import { fetchNui } from "@/utils/fetchNui";
+import { useLocales } from "@/providers/LocaleProvider";
 
 const AlertDialogWrapper = () => {
+  const { locale } = useLocales();
   const [opened, setOpened] = useState(false);
   const [dialogData, setDialogData] = useState<AlertProps>({
     title: "",
@@ -70,7 +72,7 @@ const AlertDialogWrapper = () => {
                 size={undefined}
                 onClick={() => closeAlert("cancel")}
               >
-                {dialogData.labels?.cancel || "Cancel"}
+                {dialogData.labels?.cancel || locale.ui.cancel}
               </AlertDialogCancel>
             )}
             <AlertDialogAction
@@ -78,7 +80,7 @@ const AlertDialogWrapper = () => {
               variant={undefined}
               onClick={() => closeAlert("confirm")}
             >
-              {dialogData.labels?.confirm || "OK"}
+              {dialogData.labels?.confirm || locale.ui.confirm}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

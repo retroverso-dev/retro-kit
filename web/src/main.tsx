@@ -4,15 +4,21 @@ import "./index.css";
 import App from "./App.tsx";
 import { TooltipProvider } from "./components/ui/tooltip";
 import { Toaster } from "@/components/ui/sonner";
+import LocaleProvider from "./providers/LocaleProvider.tsx";
+import ConfigProvider from "./providers/ConfigProvider.tsx";
 
 // Force dark mode for NUI
 document.documentElement.classList.add("dark");
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <TooltipProvider>
-      <App />
-      <Toaster />
-    </TooltipProvider>
+    <ConfigProvider>
+      <LocaleProvider>
+        <TooltipProvider>
+          <App />
+          <Toaster />
+        </TooltipProvider>
+      </LocaleProvider>
+    </ConfigProvider>
   </StrictMode>,
 );

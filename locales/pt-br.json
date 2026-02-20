@@ -1,0 +1,9 @@
+{
+  "language": "Português (Brasil)",
+  "ui": {
+    "cancel": "Cancelar",
+    "confirm": "Confirmar",
+    "close": "Fechar",
+    "inputPlaceholder": "Digite aqui..."
+  }
+}

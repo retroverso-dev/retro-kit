@@ -11,6 +11,7 @@ A collection of UI tools and resources for FiveM development.
 - [Circle Progress](./circle-progress.md)
 - [Context Menu](./context-menu.md)
 - [Text UI](./text-ui.md)
+- [Input Dialog](./input-dialog.md)
 - [Configuration](./configuration.md)
 
 ## Quick Start

@@ -97,6 +97,10 @@ function HideTextUi(player)
   return RetroKitServer.ui.textUiHide(player)
 end
 
+function TriggerDialog(player, data)
+  return RetroKitServer.ui.dialog(player, data)
+end
+
 exports("TriggerNotification", TriggerNotification)
 exports("TriggerAlert", TriggerAlert)
 exports("UI", TriggerUI)
@@ -108,3 +112,4 @@ exports("ShowContext", ShowContext)
 exports("HideContext", HideContext)
 exports("TriggerTextUi", TriggerTextUi)
 exports("HideTextUi", HideTextUi)
+exports("TriggerDialog", TriggerDialog)

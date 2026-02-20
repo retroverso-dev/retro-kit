@@ -1,0 +1,9 @@
+{
+  "language": "Čeština",
+  "ui": {
+    "cancel": "Zrušit",
+    "confirm": "Potvrdit",
+    "close": "Zavřít",
+    "inputPlaceholder": "Zadejte zde..."
+  }
+}
