@@ -26,6 +26,7 @@ import ColorField from "./components/color";
 import TimeField from "./components/time";
 import DateField from "./components/date";
 import TextareaField from "./components/textarea";
+import { useLocales } from "@/providers/LocaleProvider";
 
 export type FormValues = {
   test: {
@@ -57,6 +58,8 @@ const InputDialog: React.FC = () => {
     description: "",
     rows: [{ type: "input", label: "" }],
   });
+
+  const { locale } = useLocales();
 
   const form = useForm<{ test: { value: any }[] }>({});
   const fieldForm = useFieldArray({
@@ -237,14 +240,14 @@ const InputDialog: React.FC = () => {
                 onClick={() => handleClose()}
                 disabled={fields.options?.allowCancel === false}
               >
-                Cancel
+                {locale.ui.cancel}
               </AlertDialogCancel>
               <AlertDialogAction
                 variant="default"
                 type="button"
                 onClick={onSubmit}
               >
-                Confirm
+                {locale.ui.confirm}
               </AlertDialogAction>
             </AlertDialogFooter>
           </AlertDialogContent>

@@ -1,0 +1,9 @@
+{
+  "language": "Suomi",
+  "ui": {
+    "cancel": "Peruuta",
+    "confirm": "Vahvista",
+    "close": "Sulje",
+    "inputPlaceholder": "Kirjoita tähän..."
+  }
+}

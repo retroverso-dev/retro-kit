@@ -1,0 +1,9 @@
+{
+  "language": "Italiano",
+  "ui": {
+    "cancel": "Annulla",
+    "confirm": "Conferma",
+    "close": "Chiudi",
+    "inputPlaceholder": "Digita qui..."
+  }
+}

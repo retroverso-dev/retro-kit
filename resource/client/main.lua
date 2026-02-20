@@ -26,6 +26,11 @@ RegisterNUICallback("init", function(_, cb)
   cb({ ok = true })
 end)
 
+RegisterNetEvent("retro-kit:setLocale")
+AddEventHandler("retro-kit:setLocale", function(locale)
+  RetroKitClient.send("setLocale", locale)
+end)
+
 AddEventHandler("onResourceStop", function(resourceName)
   if resourceName ~= GetCurrentResourceName() then return end
   if RetroKitClient.nuiFocused then

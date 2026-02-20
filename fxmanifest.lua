@@ -46,6 +46,7 @@ server_scripts {
 files {
     'init.lua',
     'imports/*.lua',
+    'locales/*.json',
     'resource/server/debug/tests/*.lua',
     'web/dist/**/*',
 }

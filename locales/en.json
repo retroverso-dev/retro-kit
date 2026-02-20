@@ -1,0 +1,9 @@
+{
+  "language": "English",
+  "ui": {
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "close": "Close",
+    "inputPlaceholder": "Type here..."
+  }
+}

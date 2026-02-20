@@ -1,0 +1,9 @@
+{
+  "language": "Deutsch",
+  "ui": {
+    "cancel": "Abbrechen",
+    "confirm": "Bestätigen",
+    "close": "Schließen",
+    "inputPlaceholder": "Hier eingeben..."
+  }
+}
