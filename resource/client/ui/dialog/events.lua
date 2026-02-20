@@ -1,0 +1,5 @@
+RegisterNetEvent("retro-kit:openDialog")
+AddEventHandler("retro-kit:openDialog", function(data)
+  RetroKitClient.setFocus(true)
+  RetroKitClient.send("openDialog", data)
+end)

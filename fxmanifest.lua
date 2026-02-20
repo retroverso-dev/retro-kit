@@ -23,6 +23,8 @@ client_scripts {
     'resource/client/ui/context/events.lua',
     'resource/client/ui/context/callbacks.lua',
     'resource/client/ui/textui/events.lua',
+    'resource/client/ui/dialog/events.lua',
+    'resource/client/ui/dialog/callbacks.lua',
 }
 
 server_scripts {
@@ -36,6 +38,7 @@ server_scripts {
     'resource/server/ui/progress/events.lua',
     'resource/server/ui/context/api.lua',
     'resource/server/ui/textui/api.lua',
+    'resource/server/ui/dialog/api.lua',
 
     'resource/server/debug/commands.lua',
 }
@@ -43,6 +46,7 @@ server_scripts {
 files {
     'init.lua',
     'imports/*.lua',
+    'resource/server/debug/tests/*.lua',
     'web/dist/**/*',
 }
 

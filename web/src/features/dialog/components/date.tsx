@@ -13,6 +13,15 @@ import { CalendarIcon } from "lucide-react";
 import { format } from "date-fns";
 import { type DateRange } from "react-day-picker";
 
+// Converts dayjs/moment format tokens to date-fns tokens
+function toDateFnsFormat(fmt: string): string {
+  return fmt
+    .replace(/YYYY/g, "yyyy")
+    .replace(/YY/g, "yy")
+    .replace(/DD/g, "dd")
+    .replace(/D/g, "d");
+}
+
 interface Props {
   row: IDateInput;
   index: number;
@@ -93,7 +102,7 @@ const SingleDateField: React.FC<{
         >
           <CalendarIcon className="mr-2 size-4" />
           {selectedDate ? (
-            format(selectedDate, row.format || "PPP")
+            format(selectedDate, toDateFnsFormat(row.format || "PPP"))
           ) : (
             <span className="text-muted-foreground">
               {row.default || "Pick a date"}
@@ -136,7 +145,7 @@ const RangeDateField: React.FC<{
     return false;
   };
 
-  const dateFormat = row.format || "LLL dd, y";
+  const dateFormat = toDateFnsFormat(row.format || "LLL dd, y");
 
   return (
     <Popover>

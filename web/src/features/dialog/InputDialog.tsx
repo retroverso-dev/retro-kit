@@ -110,7 +110,7 @@ const InputDialog: React.FC = () => {
     form.reset();
     fieldForm.remove();
     if (dontPost) return;
-    fetchNui("inputData");
+    fetchNui("inputData", null);
   };
 
   const onSubmit = form.handleSubmit(async (data) => {
