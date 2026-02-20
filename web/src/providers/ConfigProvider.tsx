@@ -1,4 +1,10 @@
-import React, { Context, createContext, useContext, useState } from "react";
+import React, {
+  Context,
+  createContext,
+  useContext,
+  useRef,
+  useState,
+} from "react";
 import { useNuiEvent } from "@/hooks/useNuiEvent";
 
 interface Colors {
@@ -19,12 +25,10 @@ const ConfigContext = createContext<ConfigContextValue | null>(null);
 function parseHex(hex: string): string {
   let cleaned = hex.replace(/^#/, "");
 
-  // Handle AARRGGBB format (e.g. "FFE54646")
   if (cleaned.length === 8 && /^[a-f\d]{8}$/i.test(cleaned)) {
-    cleaned = cleaned.substring(2); // strip alpha prefix
+    cleaned = cleaned.substring(2);
   }
 
-  // Handle shorthand (e.g. "F00")
   if (cleaned.length === 3) {
     cleaned = cleaned
       .split("")
@@ -32,7 +36,7 @@ function parseHex(hex: string): string {
       .join("");
   }
 
-  return "#" + cleaned;
+  return "#" + cleaned.toLowerCase();
 }
 
 function hexToRgb(hex: string): [number, number, number] | null {
@@ -47,48 +51,15 @@ function hexToRgb(hex: string): [number, number, number] | null {
   ];
 }
 
-function rgbToHsl(r: number, g: number, b: number): [number, number, number] {
-  r /= 255;
-  g /= 255;
-  b /= 255;
-
-  const max = Math.max(r, g, b);
-  const min = Math.min(r, g, b);
-  const l = (max + min) / 2;
-
-  if (max === min) {
-    return [0, 0, Math.round(l * 100)];
-  }
-
-  const d = max - min;
-  const s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
-
-  let h = 0;
-  switch (max) {
-    case r:
-      h = ((g - b) / d + (g < b ? 6 : 0)) / 6;
-      break;
-    case g:
-      h = ((b - r) / d + 2) / 6;
-      break;
-    case b:
-      h = ((r - g) / d + 4) / 6;
-      break;
-  }
-
-  return [Math.round(h * 360), Math.round(s * 100), Math.round(l * 100)];
-}
-
-function hexToHslString(hex: string): string | null {
+function hexToRgba(hex: string): string | null {
   const rgb = hexToRgb(hex);
   if (!rgb) return null;
-  const [h, s, l] = rgbToHsl(...rgb);
-  return `${h} ${s}% ${l}%`;
+  return `rgba(${rgb[0]}, ${rgb[1]}, ${rgb[2]}, 1)`;
 }
 
-function getContrastHsl(hex: string): string {
+function getContrastRgba(hex: string): string {
   const rgb = hexToRgb(hex);
-  if (!rgb) return "0 0% 100%";
+  if (!rgb) return "rgba(255, 255, 255, 1)";
 
   const [r, g, b] = rgb.map((c) => {
     c /= 255;
@@ -96,37 +67,58 @@ function getContrastHsl(hex: string): string {
   });
   const luminance = 0.2126 * r + 0.7152 * g + 0.0722 * b;
 
-  return luminance > 0.4 ? "0 0% 9%" : "0 0% 98%";
+  return luminance > 0.4 ? "rgba(9, 9, 11, 1)" : "rgba(255, 255, 255, 1)";
 }
 
 // ══════════════════════════════════════════
-// CSS VARIABLE INJECTION
+// CSS INJECTION VIA <style> TAG
 // ══════════════════════════════════════════
 
+const STYLE_ID = "retro-kit-config-colors";
+
 function applyCssVariables(colors: Colors) {
-  const root = document.documentElement;
+  let existing = document.getElementById(STYLE_ID);
+
+  if (!existing) {
+    existing = document.createElement("style");
+    existing.id = STYLE_ID;
+    document.head.appendChild(existing);
+  }
+
+  const vars: string[] = [];
 
   if (colors.primary) {
-    const hsl = hexToHslString(colors.primary);
-    if (hsl) {
-      root.style.setProperty("--primary", hsl);
-      root.style.setProperty(
-        "--primary-foreground",
-        getContrastHsl(colors.primary),
-      );
+    const hex = parseHex(colors.primary);
+    const rgba = hexToRgba(hex);
+    const fg = getContrastRgba(hex);
+    if (rgba) {
+      vars.push(`--primary: ${rgba}`);
+      vars.push(`--primary-foreground: ${fg}`);
+      vars.push(`--ring: ${rgba}`);
     }
   }
 
   if (colors.secondary) {
-    const hsl = hexToHslString(colors.secondary);
-    if (hsl) {
-      root.style.setProperty("--secondary", hsl);
-      root.style.setProperty(
-        "--secondary-foreground",
-        getContrastHsl(colors.secondary),
-      );
+    const hex = parseHex(colors.secondary);
+    const rgba = hexToRgba(hex);
+    const fg = getContrastRgba(hex);
+    if (rgba) {
+      vars.push(`--secondary: ${rgba}`);
+      vars.push(`--secondary-foreground: ${fg}`);
     }
   }
+
+  if (vars.length === 0) return;
+
+  const declarations = vars.map((v) => `  ${v} !important;`).join("\n");
+
+  existing.textContent = `
+:root,
+:root.dark,
+.dark {
+${declarations}
+}
+`;
 }
 
 // ══════════════════════════════════════════
@@ -137,15 +129,26 @@ const ConfigProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const [colors, setColors] = useState<Colors>({});
+  const applied = useRef(false);
 
   useNuiEvent<Colors>("setConfig", (data) => {
-    const parsed: Colors = {
-      primary: data.primary ? parseHex(data.primary) : undefined,
-      secondary: data.secondary ? parseHex(data.secondary) : undefined,
-    };
+    if (!data) return;
+
+    const parsed: Colors = {};
+
+    if (data.primary) {
+      parsed.primary = parseHex(data.primary);
+    }
+
+    if (data.secondary) {
+      parsed.secondary = parseHex(data.secondary);
+    }
+
+    if (!parsed.primary && !parsed.secondary) return;
 
     setColors(parsed);
     applyCssVariables(parsed);
+    applied.current = true;
   });
 
   return (
