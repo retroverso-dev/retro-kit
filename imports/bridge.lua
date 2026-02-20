@@ -100,3 +100,83 @@ function retro.bridge.target.getName()
   local t = getTarget()
   return t and t.name or "none"
 end
+
+-- ══════════════════════════════════════════
+-- INVENTORY
+-- ══════════════════════════════════════════
+
+retro.bridge.inventory = {}
+
+local function getInventory()
+  return exports['retro-kit']:GetBridgeInventory()
+end
+
+function retro.bridge.inventory.isAvailable()
+  local inv = getInventory()
+  return inv and inv.isAvailable() or false
+end
+
+function retro.bridge.inventory.getName()
+  local inv = getInventory()
+  return inv and inv.name or "none"
+end
+
+function retro.bridge.inventory.getItem(source, itemName)
+  local inv = getInventory()
+  if inv then return inv.getItem(source, itemName) end
+  return nil
+end
+
+function retro.bridge.inventory.getItems(source)
+  local inv = getInventory()
+  if inv then return inv.getItems(source) end
+  return {}
+end
+
+function retro.bridge.inventory.getItemCount(source, itemName)
+  local inv = getInventory()
+  if inv then return inv.getItemCount(source, itemName) end
+  return 0
+end
+
+function retro.bridge.inventory.hasItem(source, itemName, amount)
+  local inv = getInventory()
+  if inv then return inv.hasItem(source, itemName, amount) end
+  return false
+end
+
+function retro.bridge.inventory.addItem(source, itemName, amount, metadata)
+  local inv = getInventory()
+  if inv then return inv.addItem(source, itemName, amount, metadata) end
+  return false
+end
+
+function retro.bridge.inventory.removeItem(source, itemName, amount, metadata)
+  local inv = getInventory()
+  if inv then return inv.removeItem(source, itemName, amount, metadata) end
+  return false
+end
+
+function retro.bridge.inventory.canCarry(source, itemName, amount)
+  local inv = getInventory()
+  if inv then return inv.canCarry(source, itemName, amount) end
+  return false
+end
+
+function retro.bridge.inventory.setMetadata(source, slot, metadata)
+  local inv = getInventory()
+  if inv then return inv.setMetadata(source, slot, metadata) end
+  return false
+end
+
+function retro.bridge.inventory.getSlots(source)
+  local inv = getInventory()
+  if inv then return inv.getSlots(source) end
+  return 0
+end
+
+function retro.bridge.inventory.getWeight(source)
+  local inv = getInventory()
+  if inv then return inv.getWeight(source) end
+  return 0, 0
+end

@@ -32,6 +32,7 @@ client_scripts {
 
 server_scripts {
     'resource/server/bootstrap.lua',
+    'resource/server/bridge.lua',
     'resource/server/nui/events.lua',
 
     'resource/server/ui/notify/api.lua',

@@ -15,11 +15,31 @@ ui.alert = function(src, data)
   TriggerClientEvent("retro-kit:sendAlert", src, data)
 end
 
-ui.progress = function(src, data)
+ui.progress = function(src, data, cb)
+  if cb then
+    local eventName = "retro-kit:debug:progressResponse:" .. tostring(src) .. ":" .. tostring(math.random(100000))
+    RegisterNetEvent(eventName)
+    local handler
+    handler = AddEventHandler(eventName, function(cancelled)
+      if handler then RemoveEventHandler(handler) end
+      cb(cancelled)
+    end)
+    data._responseEvent = eventName
+  end
   TriggerClientEvent("retro-kit:progress", src, data)
 end
 
-ui.circleProgress = function(src, data)
+ui.circleProgress = function(src, data, cb)
+  if cb then
+    local eventName = "retro-kit:debug:circleProgressResponse:" .. tostring(src) .. ":" .. tostring(math.random(100000))
+    RegisterNetEvent(eventName)
+    local handler
+    handler = AddEventHandler(eventName, function(cancelled)
+      if handler then RemoveEventHandler(handler) end
+      cb(cancelled)
+    end)
+    data._responseEvent = eventName
+  end
   TriggerClientEvent("retro-kit:circleProgress", src, data)
 end
 
@@ -31,14 +51,17 @@ ui.textUiHide = function(src)
   TriggerClientEvent("retro-kit:textUiHide", src)
 end
 
-ui.showContext = function(src, data)
-  TriggerClientEvent("retro-kit:showContext", src, data)
+ui.registerContext = function(src, id, data, clickCallbacks)
+  RetroKitServer.ui.registerContext(src, id, data, clickCallbacks)
+end
+
+ui.showContext = function(src, id)
+  RetroKitServer.ui.showContext(src, id)
 end
 
 ui.dialog = function(src, data)
   local p = promise.new()
 
-  -- Listen for the result that the client already sends
   RegisterNetEvent("retro-kit:dialogResult")
   local handler
   handler = AddEventHandler("retro-kit:dialogResult", function(result)
@@ -64,6 +87,7 @@ local testFiles = {
   "progress",
   "textui",
   "target",
+  "inventory",
 }
 
 for _, name in ipairs(testFiles) do

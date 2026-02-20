@@ -85,6 +85,8 @@ local function detectInventory()
       return "qb-inventory"
     elseif isResourceStarted("qs-inventory") then
       return "qs-inventory"
+    elseif isResourceStarted("es_extended") then
+      return "esx"
     else
       return "none"
     end
@@ -97,6 +99,8 @@ local function detectInventory()
     ["qb"]            = "qb-inventory",
     ["qs-inventory"]  = "qs-inventory",
     ["qs"]            = "qs-inventory",
+    ["esx"]           = "esx",
+    ["es_extended"]   = "esx",
     ["none"]          = "none",
     ["disabled"]      = "none",
   }

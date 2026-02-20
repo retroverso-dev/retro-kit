@@ -10,8 +10,8 @@ Config.colors = {
 
 Config.Bridge = {
   framework = "qbcore", -- "esx", "qbox", "qbcore", "vrpex", "creative" or "auto"
-  inventory = "ox_inventory", -- "esx_inventoryhud", "qb-inventory", "ox_inventory" or "auto"
-  target = "ox_target", -- "qb", "ox", "none" or "auto"
+  inventory = "auto", -- "qb-inventory", "ox_inventory", "es_extended",  or "auto"
+  target = "auto", -- "qb", "ox", "none" or "auto"
 }
 
 Config.notification = {
