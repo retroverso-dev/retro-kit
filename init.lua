@@ -28,3 +28,4 @@ end
 
 import('imports/bootstrap.lua')
 import('imports/ui.lua')
+import('imports/bridge.lua')

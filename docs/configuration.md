@@ -26,9 +26,9 @@ return Config
 
 ### General
 
-| Property       | Type      | Default | Description                                                       |
-| -------------- | --------- | ------- | ----------------------------------------------------------------- |
-| `Config.debug` | `boolean` | `false` | Enable debug mode (activates `/test` command and verbose logging) |
+| Property       | Type      | Default | Description                                                        |
+| -------------- | --------- | ------- | ------------------------------------------------------------------ |
+| `Config.debug` | `boolean` | `false` | Enable debug mode (activates `/retro` command and verbose logging) |
 
 ### Notification Defaults
 
@@ -47,17 +47,17 @@ return Config
 
 When `Config.debug = true`:
 
-- The `/test` command is registered on the server
+- The `/retro` command is registered on the server
 - Server-side events print debug information to the console
 - Useful for development and testing
 
 ### Debug Commands
 
 ```
-/test notification [style]    — Test notification (success, error, info, warning, default)
-/test alert                   — Test alert dialog
-/test progress                — Test linear progress bar
-/test progress circle         — Test circle progress bar
+/retro notification [style]    — Test notification (success, error, info, warning, default)
+/retro alert                   — Test alert dialog
+/retro progress                — Test linear progress bar
+/retro progress circle         — Test circle progress bar
 ```
 
 ## Runtime Access
