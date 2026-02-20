@@ -52,6 +52,12 @@ end
 
 local Target = {}
 
+Target.name = "ox_target"
+
+function Target.isAvailable()
+  return true
+end
+
 -- ── Entity ──────────────────────────────
 
 function Target.addEntity(entities, options)

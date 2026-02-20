@@ -79,6 +79,12 @@ end
 
 local Target = {}
 
+Target.name = "qb-target"
+
+function Target.isAvailable()
+  return true
+end
+
 -- ── Entity ──────────────────────────────
 
 function Target.addEntity(entities, options)

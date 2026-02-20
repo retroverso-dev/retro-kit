@@ -90,3 +90,13 @@ function retro.bridge.target.disableTargeting(state)
   local t = getTarget()
   if t then t.disableTargeting(state) end
 end
+
+function retro.bridge.target.isAvailable()
+  local t = getTarget()
+  return t and t.isAvailable() or false
+end
+
+function retro.bridge.target.getName()
+  local t = getTarget()
+  return t and t.name or "none"
+end

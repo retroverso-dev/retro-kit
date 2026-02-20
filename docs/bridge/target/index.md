@@ -54,7 +54,70 @@ if target then
 end
 ```
 
+### Checking Availability
+
+You can check if a target system is available before using it, and handle fallbacks accordingly.
+
+```lua
+-- Check if any target system is loaded
+if retro.bridge.target.isAvailable() then
+  retro.bridge.target.addEntity(vehicle, {
+    {
+      name = "open_trunk",
+      label = "Open Trunk",
+      icon = "fas fa-box-open",
+      distance = 2.5,
+      onSelect = function(data)
+        -- open trunk logic
+      end,
+    },
+  })
+else
+  -- Fallback: use keybind, drawtext, prompt, etc.
+  print("No target system available, using fallback")
+end
+```
+
+```lua
+-- Check which target system is active
+local name = retro.bridge.target.getName()
+-- Returns: "ox_target", "qb-target", or "none"
+
+if name == "none" then
+  -- no target system
+elseif name == "ox_target" then
+  -- ox_target specific logic (if needed)
+end
+```
+
+```lua
+-- Check the return value of any function
+-- Returns true if executed, false if target is "none"
+local success = retro.bridge.target.addModel("prop_atm_01", {
+  {
+    name = "use_atm",
+    label = "Use ATM",
+    icon = "fas fa-money-bill",
+    distance = 2.0,
+    onSelect = function(data)
+      -- atm logic
+    end,
+  },
+})
+
+if not success then
+  print("Target not available, interaction was not registered")
+end
+```
+
 ## API Reference
+
+### Availability
+
+```lua
+retro.bridge.target.isAvailable()   -- returns boolean
+retro.bridge.target.getName()       -- returns "ox_target" | "qb-target" | "none"
+```
 
 ### Entity
 
