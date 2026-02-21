@@ -9,7 +9,7 @@ Config.colors = {
 }
 
 Config.Bridge = {
-  framework = "auto", -- "esx", "qbox", "qbcore", "vrpex" or "auto"
+  framework = "auto", -- "esx", "qbox", "qbcore", "vrp" or "auto"
   inventory = "auto", -- "qb-inventory", "ox_inventory", "es_extended",  or "auto"
   target = "auto", -- "qb", "ox", "none" or "auto"
 }

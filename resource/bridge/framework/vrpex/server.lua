@@ -3,8 +3,8 @@
 -- ══════════════════════════════════════════
 
 local Framework = {}
-
-Framework.name = "vrpex"
+  
+Framework.name = "vrp"
 local frameworkFolder = 'vrp'
 local function init()
 	load(LoadResourceFile(frameworkFolder, 'lib/utils.lua'))()

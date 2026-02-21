@@ -7,7 +7,7 @@ Unified API for interacting with framework systems. Configure once in `config.lu
 ```lua
 -- config.lua
 Config.Bridge = {
-  framework = "auto", -- "qbcore", "esx", "qbox", "vrpex", "none" or "auto"
+  framework = "auto", -- "qbcore", "esx", "qbox", "vrp", "none" or "auto"
 }
 ```
 
@@ -17,7 +17,7 @@ Config.Bridge = {
 | `"qbcore"` / `"qb-core"` / `"qb"` | Use QBCore                         |
 | `"esx"` / `"es_extended"`         | Use ESX                            |
 | `"qbox"` / `"qbx"` / `"qbx_core"` | Use QBox                           |
-| `"vrpex"` / `"vrp"`               | Use vRPex                          |
+| `"vrp"` / `"vrpex"`               | Use vRP                            |
 | `"none"` / `"disabled"`           | Disable framework bridge           |
 
 ## Supported Frameworks
@@ -157,7 +157,7 @@ end
 ```lua
 -- Check which framework is active
 local name = retro.bridge.framework.getBridgeName()
--- Returns: "qbcore", "esx", "qbox", "vrpex", or "none"
+-- Returns: "qbcore", "esx", "qbox", "vrp", or "none"
 ```
 
 ---
@@ -168,7 +168,7 @@ local name = retro.bridge.framework.getBridgeName()
 
 ```lua
 retro.bridge.framework.isAvailable()    -- returns boolean
-retro.bridge.framework.getBridgeName()  -- returns "qbcore" | "esx" | "qbox" | "vrpex" | "none"
+retro.bridge.framework.getBridgeName()  -- returns "qbcore" | "esx" | "qbox" | "vrp" | "none"
 ```
 
 ### Server-Side Functions

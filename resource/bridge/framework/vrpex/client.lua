@@ -4,7 +4,7 @@
 
 local Framework = {}
 
-Framework.name = "vrpex"
+Framework.name = "vrp"
 
 function Framework.isAvailable()
   return true
