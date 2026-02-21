@@ -23,12 +23,10 @@ end
 local function itemExists(itemName)
   local ESX = getESX()
 
-  -- ESX registra items no shared object
   if ESX.Items and ESX.Items[itemName] then
     return true
   end
 
-  -- Fallback: tentar buscar via DB/registered items
   if ESX.GetItems then
     local items = ESX.GetItems()
     if items then
@@ -40,8 +38,6 @@ local function itemExists(itemName)
     end
   end
 
-  -- Fallback final: verificar se o player consegue ter o item
-  -- Se o item não existe, getInventoryItem retorna nil ou count 0
   return false
 end
 
@@ -104,10 +100,8 @@ function Inventory.addItem(source, itemName, amount, metadata)
   local xPlayer = getPlayer(source)
   if not xPlayer then return false end
 
-  -- Verificar se o item existe no ESX
   local item = xPlayer.getInventoryItem(itemName)
   if not item then
-    -- Item não está registrado no ESX
     if not itemExists(itemName) then
       return false
     end
@@ -115,7 +109,6 @@ function Inventory.addItem(source, itemName, amount, metadata)
 
   xPlayer.addInventoryItem(itemName, amount, metadata)
 
-  -- Verificar se realmente foi adicionado
   local after = xPlayer.getInventoryItem(itemName)
   if not after or (after.count or 0) < amount then
     return false

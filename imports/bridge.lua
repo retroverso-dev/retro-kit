@@ -180,3 +180,154 @@ function retro.bridge.inventory.getWeight(source)
   if inv then return inv.getWeight(source) end
   return 0, 0
 end
+
+-- ══════════════════════════════════════════
+-- FRAMEWORK
+-- ══════════════════════════════════════════
+
+retro.bridge.framework = {}
+
+local function getFramework()
+  if IsDuplicityVersion() then
+    return exports['retro-kit']:GetBridgeFramework()
+  else
+    return Bridge and Bridge.framework or nil
+  end
+end
+
+function retro.bridge.framework.isAvailable()
+  local fw = getFramework()
+  return fw and fw.isAvailable() or false
+end
+
+function retro.bridge.framework.getName()
+  local fw = getFramework()
+  return fw and fw.name or "none"
+end
+
+-- Server-side functions
+if IsDuplicityVersion() then
+
+  function retro.bridge.framework.getPlayer(source)
+    local fw = getFramework()
+    if fw then return fw.getPlayer(source) end
+    return nil
+  end
+
+  function retro.bridge.framework.getIdentifier(source)
+    local fw = getFramework()
+    if fw then return fw.getIdentifier(source) end
+    return nil
+  end
+
+  function retro.bridge.framework.getName(source)
+    local fw = getFramework()
+    if fw then return fw.getName(source) end
+    return nil
+  end
+
+  function retro.bridge.framework.getJob(source)
+    local fw = getFramework()
+    if fw then return fw.getJob(source) end
+    return nil
+  end
+
+  function retro.bridge.framework.getGang(source)
+    local fw = getFramework()
+    if fw then return fw.getGang(source) end
+    return nil
+  end
+
+  function retro.bridge.framework.getMoney(source, moneyType)
+    local fw = getFramework()
+    if fw then return fw.getMoney(source, moneyType) end
+    return 0
+  end
+
+  function retro.bridge.framework.addMoney(source, moneyType, amount, reason)
+    local fw = getFramework()
+    if fw then return fw.addMoney(source, moneyType, amount, reason) end
+    return false
+  end
+
+  function retro.bridge.framework.removeMoney(source, moneyType, amount, reason)
+    local fw = getFramework()
+    if fw then return fw.removeMoney(source, moneyType, amount, reason) end
+    return false
+  end
+
+  function retro.bridge.framework.hasGroup(source, group, minGrade)
+    local fw = getFramework()
+    if fw then return fw.hasGroup(source, group, minGrade) end
+    return false
+  end
+
+  function retro.bridge.framework.isAdmin(source)
+    local fw = getFramework()
+    if fw then return fw.isAdmin(source) end
+    return false
+  end
+
+  function retro.bridge.framework.notify(source, message, type)
+    local fw = getFramework()
+    if fw then fw.notify(source, message, type) end
+  end
+
+  function retro.bridge.framework.getPlayers()
+    local fw = getFramework()
+    if fw then return fw.getPlayers() end
+    return {}
+  end
+
+  function retro.bridge.framework.getPlayerCount()
+    local fw = getFramework()
+    if fw then return fw.getPlayerCount() end
+    return 0
+  end
+
+-- Client-side functions
+else
+
+  function retro.bridge.framework.getPlayerData()
+    local fw = getFramework()
+    if fw then return fw.getPlayerData() end
+    return nil
+  end
+
+  function retro.bridge.framework.getJob()
+    local fw = getFramework()
+    if fw then return fw.getJob() end
+    return nil
+  end
+
+  function retro.bridge.framework.getGang()
+    local fw = getFramework()
+    if fw then return fw.getGang() end
+    return nil
+  end
+
+  function retro.bridge.framework.getMoney(moneyType)
+    local fw = getFramework()
+    if fw then return fw.getMoney(moneyType) end
+    return 0
+  end
+
+  function retro.bridge.framework.hasGroup(group, minGrade)
+    local fw = getFramework()
+    if fw then return fw.hasGroup(group, minGrade) end
+    return false
+  end
+
+  function retro.bridge.framework.getIdentifier()
+    local fw = getFramework()
+    if fw then return fw.getIdentifier() end
+    return nil
+  end
+
+  function retro.bridge.framework.getCharName()
+    local fw = getFramework()
+    if fw then return fw.getName() end
+    return nil
+  end
+
+end

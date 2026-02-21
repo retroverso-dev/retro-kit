@@ -88,6 +88,7 @@ local testFiles = {
   "textui",
   "target",
   "inventory",
+  "framework",
 }
 
 for _, name in ipairs(testFiles) do

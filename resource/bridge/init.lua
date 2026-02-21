@@ -53,22 +53,30 @@ local function detectFramework()
       return "esx"
     elseif isResourceStarted("qbx_core") then
       return "qbox"
+    elseif isResourceStarted("vrp") then
+      return "vrpex"
+    elseif isResourceStarted("creative_core") then
+      return "creative"
     else
       return "none"
     end
   end
 
   local aliases = {
-    ["qbcore"]     = "qbcore",
-    ["qb-core"]    = "qbcore",
-    ["qb"]         = "qbcore",
-    ["esx"]        = "esx",
-    ["es_extended"] = "esx",
-    ["qbox"]       = "qbox",
-    ["qbx"]        = "qbox",
-    ["qbx_core"]   = "qbox",
-    ["none"]       = "none",
-    ["disabled"]   = "none",
+    ["qbcore"]        = "qbcore",
+    ["qb-core"]       = "qbcore",
+    ["qb"]            = "qbcore",
+    ["esx"]           = "esx",
+    ["es_extended"]   = "esx",
+    ["qbox"]          = "qbox",
+    ["qbx"]           = "qbox",
+    ["qbx_core"]      = "qbox",
+    ["vrpex"]         = "vrpex",
+    ["vrp"]           = "vrpex",
+    ["creative"]      = "creative",
+    ["creative_core"] = "creative",
+    ["none"]          = "none",
+    ["disabled"]      = "none",
   }
 
   return aliases[configured] or "none"
