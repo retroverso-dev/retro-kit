@@ -11,10 +11,13 @@ license 'LGPL-3.0-or-later + additional terms'
 
 shared_scripts {
     'resource/shared/config.lua',
+    'resource/bridge/init.lua',
 }
 
 client_scripts {
     'resource/client/main.lua',
+    'resource/client/bridge.lua',
+    'resource/client/debug/target.lua',
     'resource/client/ui/notify/events.lua',
     'resource/client/ui/alert/events.lua',
     'resource/client/ui/alert/callbacks.lua',
@@ -29,6 +32,7 @@ client_scripts {
 
 server_scripts {
     'resource/server/bootstrap.lua',
+    'resource/server/bridge.lua',
     'resource/server/nui/events.lua',
 
     'resource/server/ui/notify/api.lua',
@@ -48,6 +52,7 @@ files {
     'imports/*.lua',
     'locales/*.json',
     'resource/server/debug/tests/*.lua',
+    'resource/bridge/**/*.lua',
     'web/dist/**/*',
 }
 

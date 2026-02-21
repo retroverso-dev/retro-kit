@@ -8,6 +8,12 @@ Config.colors = {
   secondary = "#911414",
 }
 
+Config.Bridge = {
+  framework = "auto", -- "esx", "qbox", "qbcore", "vrpex", "creative" or "auto"
+  inventory = "auto", -- "qb-inventory", "ox_inventory", "es_extended",  or "auto"
+  target = "auto", -- "qb", "ox", "none" or "auto"
+}
+
 Config.notification = {
   defaultDuration = 5000,
   defaultPosition = "top-right",

@@ -1,0 +1,21 @@
+---@class InventoryItem
+---@field name string Item name/id
+---@field label string Display label
+---@field count number Item count
+---@field slot? number Slot number
+---@field weight? number Item weight
+---@field metadata? table Item metadata
+
+---@class InventoryBridge
+---@field name string Bridge name identifier ("ox_inventory" | "qb-inventory" | "esx" | "none")
+---@field isAvailable fun(): boolean Whether the inventory system is loaded
+---@field getItem fun(source: number, itemName: string): InventoryItem|nil Get a single item
+---@field getItems fun(source: number): InventoryItem[] Get all items
+---@field getItemCount fun(source: number, itemName: string): number Get item count
+---@field hasItem fun(source: number, itemName: string, amount?: number): boolean Check if player has item
+---@field addItem fun(source: number, itemName: string, amount: number, metadata?: table): boolean Add item to player
+---@field removeItem fun(source: number, itemName: string, amount: number, metadata?: table): boolean Remove item from player
+---@field canCarry fun(source: number, itemName: string, amount: number): boolean Check if player can carry item
+---@field setMetadata fun(source: number, slot: number, metadata: table): boolean Set item metadata
+---@field getSlots fun(source: number): number Get total inventory slots
+---@field getWeight fun(source: number): number, number Get current weight and max weight

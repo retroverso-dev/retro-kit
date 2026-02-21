@@ -1,6 +1,6 @@
 RegisterNetEvent("retro-kit:showContext")
 AddEventHandler("retro-kit:showContext", function(data)
-  RetroKitClient.setFocus(true, true)
+  RetroKitClient.setFocus(true)
   RetroKitClient.send("showContext", data)
 end)
 

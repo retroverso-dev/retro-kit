@@ -1,0 +1,47 @@
+---@class PlayerData
+---@field source number Server ID
+---@field identifier string Unique identifier (license, steam, etc.)
+---@field name string Character name (first + last)
+---@field firstName string First name
+---@field lastName string Last name
+---@field job JobData Current job
+---@field gang? GangData Current gang (QBCore/QBox only)
+---@field money MoneyData Money balances
+---@field dob? string Date of birth
+---@field gender? number Gender (0 = male, 1 = female)
+---@field phone? string Phone number
+
+---@class JobData
+---@field name string Job name/id
+---@field label string Job display label
+---@field grade number Grade/rank level
+---@field gradeLabel string Grade display label
+---@field onDuty? boolean On duty status
+
+---@class GangData
+---@field name string Gang name/id
+---@field label string Gang display label
+---@field grade number Grade/rank level
+---@field gradeLabel string Grade display label
+
+---@class MoneyData
+---@field cash number Cash balance
+---@field bank number Bank balance
+---@field crypto? number Crypto balance (if supported)
+
+---@class FrameworkBridge
+---@field name string Bridge name identifier
+---@field isAvailable fun(): boolean Whether the framework is loaded
+---@field getPlayer fun(source: number): PlayerData|nil Get player data
+---@field getIdentifier fun(source: number): string|nil Get player unique identifier
+---@field getName fun(source: number): string|nil Get player full name
+---@field getJob fun(source: number): JobData|nil Get player job
+---@field getGang fun(source: number): GangData|nil Get player gang
+---@field getMoney fun(source: number, moneyType?: string): number Get money balance
+---@field addMoney fun(source: number, moneyType: string, amount: number, reason?: string): boolean Add money
+---@field removeMoney fun(source: number, moneyType: string, amount: number, reason?: string): boolean Remove money
+---@field hasGroup fun(source: number, group: string, minGrade?: number): boolean Check job/gang membership
+---@field isAdmin fun(source: number): boolean Check if player is admin
+---@field notify fun(source: number, message: string, type?: string): nil Send framework notification
+---@field getPlayers fun(): number[] Get all online player sources
+---@field getPlayerCount fun(): number Get online player count

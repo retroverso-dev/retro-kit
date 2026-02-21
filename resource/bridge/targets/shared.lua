@@ -1,0 +1,42 @@
+---@class TargetOptions
+---@field name string Unique option name/id
+---@field label string Display label
+---@field icon? string Icon name (e.g. "fas fa-box", lucide name, etc.)
+---@field distance? number Maximum interaction distance (default: 2.0)
+---@field canInteract? fun(entity: number, distance: number, coords: vector3, name: string): boolean
+---@field onSelect fun(data: TargetCallbackData) Callback when selected
+---@field items? string|string[] Required item(s) to show option
+---@field groups? string|string[]|table Required job/gang to show option
+
+---@class TargetCallbackData
+---@field entity number Entity handle
+---@field coords vector3 Interaction coordinates
+---@field distance number Distance from player
+---@field name string Option name
+
+---@class TargetZoneParams
+---@field name string Unique zone name
+---@field coords vector3 Center coordinates
+---@field size? vector3 Zone size (default: vec3(2, 2, 2))
+---@field rotation? vector3 Zone rotation (default: vec3(0, 0, 0))
+---@field debug? boolean Show debug zone
+---@field options TargetOptions[] Array of options
+---@field distance? number Override default distance
+
+---@class TargetBridge
+---@field addEntity fun(entities: number|number[], options: TargetOptions[])
+---@field removeEntity fun(entities: number|number[], optionNames?: string|string[])
+---@field addModel fun(models: number|string|table, options: TargetOptions[])
+---@field removeModel fun(models: number|string|table, optionNames?: string|string[])
+---@field addGlobalPlayer fun(options: TargetOptions[])
+---@field removeGlobalPlayer fun(optionNames?: string|string[])
+---@field addGlobalPed fun(options: TargetOptions[])
+---@field removeGlobalPed fun(optionNames?: string|string[])
+---@field addGlobalVehicle fun(options: TargetOptions[])
+---@field removeGlobalVehicle fun(optionNames?: string|string[])
+---@field addGlobalObject fun(options: TargetOptions[])
+---@field removeGlobalObject fun(optionNames?: string|string[])
+---@field addBoxZone fun(params: TargetZoneParams)
+---@field addSphereZone fun(params: TargetZoneParams)
+---@field removeZone fun(name: string)
+---@field disableTargeting fun(state: boolean)
