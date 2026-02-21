@@ -57,7 +57,6 @@ return function(tests, ui)
         player.gang.name, player.gang.label, player.gang.grade, player.gang.gradeLabel
       ))
     end
-    print(("  Cash: $%d | Bank: $%d"):format(player.money.cash, player.money.bank))
 
     logResult(src, "player", ("%s | %s | %s"):format(
       player.name, player.job.name, player.identifier

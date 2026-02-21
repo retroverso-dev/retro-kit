@@ -54,9 +54,7 @@ local function detectFramework()
     elseif isResourceStarted("qbx_core") then
       return "qbox"
     elseif isResourceStarted("vrp") then
-      return "vrpex"
-    elseif isResourceStarted("creative_core") then
-      return "creative"
+      return "vrp"
     else
       return "none"
     end
@@ -71,10 +69,8 @@ local function detectFramework()
     ["qbox"]          = "qbox",
     ["qbx"]           = "qbox",
     ["qbx_core"]      = "qbox",
-    ["vrpex"]         = "vrpex",
-    ["vrp"]           = "vrpex",
-    ["creative"]      = "creative",
-    ["creative_core"] = "creative",
+    ["vrpex"]         = "vrp",
+    ["vrp"]           = "vrp",
     ["none"]          = "none",
     ["disabled"]      = "none",
   }
