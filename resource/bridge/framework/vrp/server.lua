@@ -13,6 +13,46 @@ end
 
 local vRP = init()
 
+local function to_number_safe(v)
+  local t = type(v)
+  if t == "number" then return v end
+  if t == "string" then return tonumber(v) or 0 end
+  if t == "table" then
+    -- tenta chaves comuns
+    if v.amount and tonumber(v.amount) then return tonumber(v.amount) end
+    if v.qtd and tonumber(v.qtd) then return tonumber(v.qtd) end
+    if v.quantity and tonumber(v.quantity) then return tonumber(v.quantity) end
+    if v[1] ~= nil then -- lista dentro da tabela
+      return to_number_safe(v[1])
+    end
+    local s = 0
+    for _,val in pairs(v) do
+      s = s + to_number_safe(val)
+    end
+    return s
+  end
+  return 0
+end
+
+local function getTotalCashMoney(source)
+  local userId = vRP.getUserId(source)
+  if not userId then return 0 end
+
+  local cashItems = vRP.getInventoryItemAmount(userId, "dollars")
+  if type(cashItems) == "number" or type(cashItems) == "string" then
+    return to_number_safe(cashItems)
+  end
+  if type(cashItems) == "table" then
+    local total = 0
+    for _, entry in pairs(cashItems) do
+      total = total + to_number_safe(entry)
+    end
+    return total
+  end
+
+  return 0
+end
+
 local function getUserId(source)
   if vRP and vRP.getUserId then
     return vRP.getUserId(source)
@@ -28,8 +68,8 @@ function Framework.getPlayer(source)
   local userId = getUserId(source)
   if not userId then return nil end
 
-  local identity = vRP.getUserIdentity and vRP.getUserIdentity(userId) or {}
-  local groups = vRP.getUserGroups and vRP.getUserGroups(userId) or {}
+  local identity = vRP.userIdentity(userId)
+  local groups = vRP.userGroups(userId) or {}
 
   -- Determine primary job from groups
   local jobName = "unemployed"
@@ -42,16 +82,16 @@ function Framework.getPlayer(source)
   end
 
   local money = {
-    cash = vRP.getMoney and vRP.getMoney(userId) or 0,
-    bank = vRP.getBankMoney and vRP.getBankMoney(userId) or 0,
+    cash = getTotalCashMoney(source) or 0,
+    bank = tonumber(vRP.getBank(userId)) or 0,
   }
 
   return {
     source = source,
     identifier = tostring(userId),
-    name = ("%s %s"):format(identity.name or "", identity.firstname or ""),
-    firstName = identity.firstname or identity.name or "",
-    lastName = identity.name or "",
+    name = ("%s %s"):format(identity.name , identity.name2),
+    firstName = identity.name,
+    lastName = identity.name2,
     job = {
       name = jobName,
       label = jobLabel,
@@ -75,15 +115,15 @@ end
 function Framework.getName(source)
   local userId = getUserId(source)
   if not userId then return nil end
-  local identity = vRP.getUserIdentity and vRP.getUserIdentity(userId) or {}
-  return ("%s %s"):format(identity.firstname or "", identity.name or "")
+  local identity = vRP.userIdentity and vRP.userIdentity(userId) or {}
+  return identity.name .. " " .. identity.name2
 end
 
 function Framework.getJob(source)
   local userId = getUserId(source)
   if not userId then return nil end
 
-  local groups = vRP.getUserGroups and vRP.getUserGroups(userId) or {}
+  local groups = vRP.userGroups(userId) or {}
   for group, _ in pairs(groups) do
     return {
       name = group,
@@ -112,11 +152,10 @@ function Framework.getMoney(source, moneyType)
   if not userId then return 0 end
 
   moneyType = moneyType or "cash"
-
   if moneyType == "cash" then
-    return vRP.getMoney and vRP.getMoney(userId) or 0
+    return getTotalCashMoney(source) or 0
   elseif moneyType == "bank" then
-    return vRP.getBankMoney and vRP.getBankMoney(userId) or 0
+    return tonumber(vRP.getBank(userId)) or 0
   end
 
   return 0
@@ -129,8 +168,8 @@ function Framework.addMoney(source, moneyType, amount, reason)
   moneyType = moneyType or "cash"
 
   if moneyType == "cash" then
-    if vRP.giveMoney then
-      vRP.giveMoney(userId, amount)
+    if vRP.giveInventoryItem then
+      vRP.giveInventoryItem(userId, "dollars", amount, true)
       return true
     end
   elseif moneyType == "bank" then
@@ -150,17 +189,9 @@ function Framework.removeMoney(source, moneyType, amount, reason)
   moneyType = moneyType or "cash"
 
   if moneyType == "cash" then
-    local current = vRP.getMoney and vRP.getMoney(userId) or 0
-    if current < amount then return false end
-    if vRP.tryPayment then
-      return vRP.tryPayment(userId, amount)
-    end
+    return vRP.tryGetInventoryItem(userId,"dollars", amount)
   elseif moneyType == "bank" then
-    local current = vRP.getBankMoney and vRP.getBankMoney(userId) or 0
-    if current < amount then return false end
-    if vRP.tryBankPayment then
-      return vRP.tryBankPayment(userId, amount)
-    end
+    return vRP.paymentBank(userId, amount)
   end
 
   return false
@@ -170,23 +201,14 @@ function Framework.hasGroup(source, group, minGrade)
   local userId = getUserId(source)
   if not userId then return false end
 
-  if vRP.hasGroup then
-    return vRP.hasGroup(userId, group) or false
-  end
-
-  local groups = vRP.getUserGroups and vRP.getUserGroups(userId) or {}
-  return groups[group] ~= nil
+  return vRP.hasGroup(userId, group) or false
 end
 
 function Framework.isAdmin(source)
   local userId = getUserId(source)
   if not userId then return false end
 
-  if vRP.hasPermission then
-    return vRP.hasPermission(userId, "admin.permall") or IsPlayerAceAllowed(tostring(source), "command")
-  end
-
-  return Framework.hasGroup(source, "admin") or IsPlayerAceAllowed(tostring(source), "command")
+  return Framework.hasGroup(userId, "Admin") or IsPlayerAceAllowed(tostring(source), "command")
 end
 
 function Framework.notify(source, message, type)

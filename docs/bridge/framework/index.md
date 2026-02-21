@@ -540,10 +540,9 @@ When `Config.debug = true`:
 /retro framework:removemoney bank 1000    -- Remove money
 /retro framework:job                      -- Show job name, label, grade, onDuty
 /retro framework:gang                     -- Show gang info (QBCore/QBox only)
-/retro framework:hasgroup police 2        -- Check group membership with min grade
+/retro framework:hasgroup police 2        -- Check group membership with min grade (except on VRP where grade is ignored)
 /retro framework:admin                    -- Check if player is admin
-/retro framework:players                  -- List all online players with names
-/retro framework:id                       -- Show player identifier
+/retro framework:players                  -- List all online players
 ```
 
 ### Example Output
