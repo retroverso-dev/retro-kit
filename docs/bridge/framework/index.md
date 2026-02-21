@@ -7,7 +7,7 @@ Unified API for interacting with framework systems. Configure once in `config.lu
 ```lua
 -- config.lua
 Config.Bridge = {
-  framework = "auto", -- "qbcore", "esx", "qbox", "vrpex", "creative", "none" or "auto"
+  framework = "auto", -- "qbcore", "esx", "qbox", "vrpex", "none" or "auto"
 }
 ```
 
@@ -18,25 +18,24 @@ Config.Bridge = {
 | `"esx"` / `"es_extended"`         | Use ESX                            |
 | `"qbox"` / `"qbx"` / `"qbx_core"` | Use QBox                           |
 | `"vrpex"` / `"vrp"`               | Use vRPex                          |
-| `"creative"` / `"creative_core"`  | Use Creative                       |
 | `"none"` / `"disabled"`           | Disable framework bridge           |
 
 ## Supported Frameworks
 
-| Feature       | QBCore | ESX | QBox | vRPex   | Creative | None |
-| ------------- | ------ | --- | ---- | ------- | -------- | ---- |
-| getPlayer     | ✅     | ✅  | ✅   | ✅      | ✅       | —    |
-| getIdentifier | ✅     | ✅  | ✅   | ✅      | ✅       | —    |
-| getName       | ✅     | ✅  | ✅   | ✅      | ✅       | —    |
-| getJob        | ✅     | ✅  | ✅   | ⚠️ \*   | ✅       | —    |
-| getGang       | ✅     | —   | ✅   | —       | —        | —    |
-| getMoney      | ✅     | ✅  | ✅   | ✅      | ✅       | —    |
-| addMoney      | ✅     | ✅  | ✅   | ✅      | ✅       | —    |
-| removeMoney   | ✅     | ✅  | ✅   | ✅      | ✅       | —    |
-| hasGroup      | ✅     | ✅  | ✅   | ✅      | ✅       | —    |
-| isAdmin       | ✅     | ✅  | ✅   | ✅      | ✅       | —    |
-| getPlayers    | ✅     | ✅  | ✅   | ✅      | ✅       | —    |
-| Client-side   | ✅     | ✅  | ✅   | ⚠️ \*\* | ✅       | —    |
+| Feature       | QBCore | ESX | QBox | vRPex   | None |
+| ------------- | ------ | --- | ---- | ------- | ---- |
+| getPlayer     | ✅     | ✅  | ✅   | ✅      | —    |
+| getIdentifier | ✅     | ✅  | ✅   | ✅      | —    |
+| getName       | ✅     | ✅  | ✅   | ✅      | —    |
+| getJob        | ✅     | ✅  | ✅   | ⚠️ \*   | —    |
+| getGang       | ✅     | —   | ✅   | —       | —    |
+| getMoney      | ✅     | ✅  | ✅   | ✅      | —    |
+| addMoney      | ✅     | ✅  | ✅   | ✅      | —    |
+| removeMoney   | ✅     | ✅  | ✅   | ✅      | —    |
+| hasGroup      | ✅     | ✅  | ✅   | ✅      | —    |
+| isAdmin       | ✅     | ✅  | ✅   | ✅      | —    |
+| getPlayers    | ✅     | ✅  | ✅   | ✅      | —    |
+| Client-side   | ✅     | ✅  | ✅   | ⚠️ \*\* | —    |
 
 \* vRPex jobs are derived from user groups. The first group is used as the "job".
 \*\* vRPex client bridge has limited functionality — most data is server-side only via Proxy.
@@ -158,7 +157,7 @@ end
 ```lua
 -- Check which framework is active
 local name = retro.bridge.framework.getBridgeName()
--- Returns: "qbcore", "esx", "qbox", "vrpex", "creative", or "none"
+-- Returns: "qbcore", "esx", "qbox", "vrpex", or "none"
 ```
 
 ---
@@ -169,7 +168,7 @@ local name = retro.bridge.framework.getBridgeName()
 
 ```lua
 retro.bridge.framework.isAvailable()    -- returns boolean
-retro.bridge.framework.getBridgeName()  -- returns "qbcore" | "esx" | "qbox" | "vrpex" | "creative" | "none"
+retro.bridge.framework.getBridgeName()  -- returns "qbcore" | "esx" | "qbox" | "vrpex" | "none"
 ```
 
 ### Server-Side Functions
@@ -198,7 +197,7 @@ retro.bridge.framework.getPlayer(source) -- returns PlayerData | nil
     gradeLabel = "Sergeant",       -- string: grade display name
     onDuty     = true,             -- boolean|nil: duty status (QBCore/QBox)
   },
-  gang = {                         -- nil on ESX/vRPex/Creative
+  gang = {                         -- nil on ESX/vRPex
     name       = "ballas",
     label      = "Ballas",
     grade      = 1,
@@ -221,13 +220,12 @@ retro.bridge.framework.getPlayer(source) -- returns PlayerData | nil
 retro.bridge.framework.getIdentifier(source) -- returns string | nil
 ```
 
-| Framework | Returns                     |
-| --------- | --------------------------- |
-| QBCore    | `citizenid`                 |
-| ESX       | `license:xxxxx` or similar  |
-| QBox      | `citizenid`                 |
-| vRPex     | vRP `user_id` as string     |
-| Creative  | `identifier` or `citizenid` |
+| Framework | Returns                    |
+| --------- | -------------------------- |
+| QBCore    | `citizenid`                |
+| ESX       | `license:xxxxx` or similar |
+| QBox      | `citizenid`                |
+| vRPex     | vRP `user_id` as string    |
 
 #### getName
 
@@ -259,11 +257,11 @@ retro.bridge.framework.addMoney(source, moneyType, amount, reason?)   -- returns
 retro.bridge.framework.removeMoney(source, moneyType, amount, reason?) -- returns boolean
 ```
 
-| moneyType  | QBCore   | ESX          | QBox     | vRPex          | Creative |
-| ---------- | -------- | ------------ | -------- | -------------- | -------- |
-| `"cash"`   | `cash`   | `money` acct | `cash`   | `getMoney`     | `cash`   |
-| `"bank"`   | `bank`   | `bank` acct  | `bank`   | `getBankMoney` | `bank`   |
-| `"crypto"` | `crypto` | —            | `crypto` | —              | —        |
+| moneyType  | QBCore   | ESX          | QBox     | vRPex          |
+| ---------- | -------- | ------------ | -------- | -------------- |
+| `"cash"`   | `cash`   | `money` acct | `cash`   | `getMoney`     |
+| `"bank"`   | `bank`   | `bank` acct  | `bank`   | `getBankMoney` |
+| `"crypto"` | `crypto` | —            | `crypto` | —              |
 
 > `removeMoney` validates balance before removing and returns `false` if insufficient funds (on ESX and vRPex).
 
@@ -301,7 +299,6 @@ retro.bridge.framework.isAdmin(source) -- returns boolean
 | ESX       | `xPlayer.getGroup() == "admin" or "superadmin"`     |
 | QBox      | `exports.qbx_core:HasPermission(source, "admin")`   |
 | vRPex     | `vRP.hasPermission(userId, "admin.permall")`        |
-| Creative  | `player.hasPermission("admin")`                     |
 | All       | Also checks `IsPlayerAceAllowed(source, "command")` |
 
 #### notify

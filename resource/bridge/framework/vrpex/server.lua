@@ -5,9 +5,14 @@
 local Framework = {}
 
 Framework.name = "vrpex"
+local frameworkFolder = 'vrp'
+local function init()
+	load(LoadResourceFile(frameworkFolder, 'lib/utils.lua'))()
+	local Proxy = module(frameworkFolder, "lib/Proxy")
+	return Proxy.getInterface("vRP")
+end
 
-local Proxy = module("vrp", "lib/Proxy")
-local vRP = Proxy.getInterface("vRP")
+local vRP = init()
 
 local function getUserId(source)
   if vRP and vRP.getUserId then

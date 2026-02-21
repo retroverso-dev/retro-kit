@@ -16,7 +16,7 @@ A collection of UI tools and resources for FiveM development.
 
 ### Bridge
 
-- [Framework Bridge](./bridge/framework/index.md) — QBCore, ESX, QBox, vRPex, Creative
+- [Framework Bridge](./bridge/framework/index.md) — QBCore, ESX, QBox, vRPex
 - [Inventory Bridge](./bridge/inventory/index.md) — ox_inventory, qb-inventory, ESX
 - [Target Bridge](./bridge/target/index.md) — ox_target, qb-target
 
