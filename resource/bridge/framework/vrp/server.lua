@@ -18,11 +18,10 @@ local function to_number_safe(v)
   if t == "number" then return v end
   if t == "string" then return tonumber(v) or 0 end
   if t == "table" then
-    -- tenta chaves comuns
     if v.amount and tonumber(v.amount) then return tonumber(v.amount) end
     if v.qtd and tonumber(v.qtd) then return tonumber(v.qtd) end
     if v.quantity and tonumber(v.quantity) then return tonumber(v.quantity) end
-    if v[1] ~= nil then -- lista dentro da tabela
+    if v[1] ~= nil then
       return to_number_safe(v[1])
     end
     local s = 0
