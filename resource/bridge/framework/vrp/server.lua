@@ -5,10 +5,9 @@
 local Framework = {}
   
 Framework.name = "vrp"
-local frameworkFolder = 'vrp'
 local function init()
-	load(LoadResourceFile(frameworkFolder, 'lib/utils.lua'))()
-	local Proxy = module(frameworkFolder, "lib/Proxy")
+	load(LoadResourceFile(Framework.name, 'lib/utils.lua'))()
+	local Proxy = module(Framework.name, "lib/Proxy")
 	return Proxy.getInterface("vRP")
 end
 
