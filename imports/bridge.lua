@@ -1,5 +1,11 @@
 retro = retro or {}
-retro.bridge = retro.bridge or {}
+
+-- Se já existir como função (ou outro tipo), normaliza para tabela
+if type(retro.bridge) ~= "table" then
+  -- opcional: preserva referência antiga para debug/compat
+  retro._bridge_legacy = retro.bridge
+  retro.bridge = {}
+end
 
 -- ══════════════════════════════════════════
 -- TARGET
